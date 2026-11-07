@@ -235,10 +235,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--p)!important;box-shad
 body{overscroll-behavior:none}
 *{scrollbar-width:none}
 *::-webkit-scrollbar{display:none}
-.header{padding-top:calc(12px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
+.header{padding-top:calc(3px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
 .fs-logo{position:fixed;top:var(--fs-top,0px);left:0;right:0;height:var(--fs-h,0px);display:none;align-items:center;justify-content:center;pointer-events:none;z-index:200;overflow:hidden}
 html[data-tg-fs="1"] .fs-logo{display:flex}
-.fs-logo img{height:35px;width:auto;max-height:84%}
+.fs-logo{gap:7px}.fs-logo .fsic{height:34px;width:34px;border-radius:9px;display:block}.fs-logo .fstx{font-size:17.5px;font-weight:800;letter-spacing:-.2px;color:#101013}
 .tg .back{display:none}
 .nav{bottom:10px;width:calc(100% - 20px);border-radius:24px;border:1px solid #ececf1;box-shadow:0 12px 32px rgba(23,0,60,.16);padding:8px 0 9px}
 body{padding-bottom:104px}
@@ -250,7 +250,7 @@ body{padding-bottom:104px}
 .add:active,.cta:active{transform:scale(.985)}
 .chip2,.sel,.cat{transition:transform .12s ease}
 .hero{height:180px}
-.header{background:#fff;color:#16161a;box-shadow:0 4px 18px rgba(23,0,60,.06);border-radius:0 0 18px 18px;padding:10px 14px 12px;padding-top:calc(10px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
+.header{background:#fff;color:#16161a;box-shadow:0 4px 18px rgba(23,0,60,.06);border-radius:0 0 18px 18px;padding:10px 14px 9px;padding-top:calc(3px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
 .header .logo{font-size:17.5px;color:#16161a;letter-spacing:-.3px}
 .header .logo span{color:#f5a623}
 .header .top{color:#8e8e93}
@@ -274,7 +274,7 @@ body{padding-bottom:104px}
 </style>
 </head>
 <body>
-<div class="fs-logo"><img src="assets/logo-band.png" alt="Azura"></div>
+<div class="fs-logo"><img class="fsic" src="assets/logo-botpic.jpg" alt="Azura"><span class="fstx">AZURA</span></div>
 <div id="app"></div>
 <div class="toast" id="toast"></div>
 <script>
