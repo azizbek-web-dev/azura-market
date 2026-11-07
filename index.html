@@ -196,6 +196,41 @@ select.sortsel{padding:9px 12px;border-radius:11px;border:1.5px solid #e0e0e6;ba
 .sztable td,.sztable th{border:1px solid #eee;padding:7px;text-align:center;color:#444}
 .sztable th{background:#f7f7fa}
 </style>
+
+<style>
+body{background:#f3f3f7}
+#app{animation:fin .28s ease}
+@keyframes fin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.header{box-shadow:0 6px 22px rgba(112,0,255,.28)}
+.card{border-radius:17px;box-shadow:0 4px 16px rgba(23,0,60,.07)}
+.ph{height:152px}
+.cat .ic{border:2.5px solid #fff;box-shadow:0 5px 14px rgba(112,0,255,.22)}
+.sec b{font-size:18px;letter-spacing:-.2px}
+.nav{box-shadow:0 -6px 22px rgba(0,0,0,.06)}
+.hero{margin:12px 12px 2px;border-radius:19px;overflow:hidden;position:relative;height:172px;box-shadow:0 10px 26px rgba(23,0,60,.16)}
+.htrack{display:flex;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.hslide{min-width:100%;height:100%;position:relative;cursor:pointer}
+.hslide img{width:100%;height:100%;object-fit:cover;display:block}
+.hoverlay{position:absolute;inset:0;background:linear-gradient(92deg,rgba(12,0,32,.66),rgba(12,0,32,.08) 68%);color:#fff;padding:18px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.hoverlay b{font-size:20px;line-height:1.22;max-width:235px}
+.hoverlay small{font-size:12.5px;opacity:.94;margin-top:5px;max-width:225px;line-height:1.4}
+.hoverlay .go{margin-top:11px;background:var(--y);color:#16161a;font-weight:800;font-size:12.5px;padding:8px 15px;border-radius:20px}
+.hdots{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:5px;justify-content:center;z-index:3}
+.hdot{width:6px;height:6px;border-radius:4px;background:rgba(255,255,255,.55);cursor:pointer;transition:.3s}
+.hdot.on{background:#fff;width:18px}
+.cdpill{background:var(--red);color:#fff;padding:5px 11px;border-radius:15px;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(255,59,92,.35)}
+.soldbar{height:6px;background:#ffe9ee;border-radius:4px;margin-top:7px;overflow:hidden}
+.soldbar div{height:100%;background:linear-gradient(90deg,#ff3b5c,#ff7a5c);border-radius:4px}
+.soldtxt{font-size:10.5px;color:#c2183f;margin-top:3px;font-weight:600}
+.gbtns{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;z-index:3}
+.gb{width:39px;height:39px;border-radius:50%;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.gal{border-radius:0}
+.pbody{background:#fff;border-radius:22px 22px 0 0;margin-top:-18px;position:relative;z-index:2;box-shadow:0 -6px 22px rgba(0,0,0,.05)}
+.pbody .infocard{background:#fafaff;border:1px solid #f0eefc}
+.buybar{box-shadow:0 -6px 22px rgba(0,0,0,.09)}
+input:focus,select:focus,textarea:focus{border-color:var(--p)!important;box-shadow:0 0 0 3px rgba(112,0,255,.12)}
+.gal .badge{top:58px;left:12px}
+</style>
 </head>
 <body>
 <div id="app"></div>
@@ -248,7 +283,8 @@ function nav(active){
 function header(){
  return `<div class="header"><div class="top"><span>📍 Toshkent shahri</span><span class="bell">🔔<i></i></span></div>
  <div class="logo">AZURA<span>•</span>MARKET</div>
- <div class="search">🔍 <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div></div>`;
+ <div class="search">🔍 <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div>
+ <div style="display:flex;justify-content:space-between;margin-top:11px;font-size:12px;opacity:.96"><span>🚚 Toshkentga yetkazish: <b>ertaga</b></span><span>⭐ 4.8 • 1 200+ xaridor</span></div></div>`;
 }
 function starsHTML(r){const f=Math.round(r);return "★★★★★".slice(0,f)+"☆☆☆☆☆".slice(0,5-f);}
 function card(p){
@@ -260,6 +296,7 @@ function card(p){
  <div class="pname">${p.name}</div>
  <div class="rate">★ ${p.rate} <i>(${p.rev} sharh) • ${p.sold} sotilgan</i></div>
  <div class="stockline ${p.stock<=5?'low':''}">${p.stock<=5?'⚠️ Kam qoldi: '+p.stock+' dona':'Bor: '+p.stock+' dona'}</div>
+ ${p.old?`<div class="soldbar"><div style="width:${20+(p.sold%65)}%"></div></div><div class="soldtxt">🔥 Aksiyada ${p.sold} ta sotildi</div>`:''}
  <button class="add ${inCart?'added':''}" onclick="event.stopPropagation();quickAdd(${p.id})">${inCart?'✓ Savatda ('+inCart.qty+')':'🛒 Savatga'}</button></div></div>`;
 }
 function filtered(){
@@ -288,14 +325,18 @@ function home(){
  const recent=S.recent.map(byId).filter(Boolean);
  return header()+`
  ${query?'':`<div class="popq"><span>Ommabop:</span>${["Krossovka","Smart soat","Atir","Kurtka","Ryukzak"].map(w=>`<button onclick="setQuery('${w}')">${w}</button>`).join('')}</div>`}
- <div class="banner"><b>Juma chegirmasi — krossovkalar 329 mingdan</b><small>Hafta oxirigacha. Kanal obunachilariga promokod: KANAL10</small><br><span class="chip" onclick="setCat('poyabzal');go('#/catalog')">Ko'rish →</span></div>
+ <div class="hero"><div class="htrack" id="htrack">
+ <div class="hslide" onclick="setCat('poyabzal');go('#/catalog')"><img src="${G}banner1.jpg" alt=""><div class="hoverlay"><b>Krossovkalar 329 000 so'mdan</b><small>Yangi kolleksiya keldi — o'lchamlar hali bor</small><span class="go">Xarid qilish →</span></div></div>
+ <div class="hslide" onclick="setCat('texnika');go('#/catalog')"><img src="${G}banner2.jpg" alt=""><div class="hoverlay"><b>Texnika haftaligi</b><small>Soat va quloqchinlarga −40% gacha chegirma</small><span class="go">Ko'rish →</span></div></div>
+ <div class="hslide" onclick="go('#/catalog')"><div style="position:absolute;inset:0;background:linear-gradient(120deg,#7000FF,#9b4dff)"></div><div class="hoverlay" style="background:none"><b>Kanal obunachilariga −10%</b><small>Promokod: <b>KANAL10</b> — savatda yozsangiz, chegirma o'zi tushadi</small><span class="go">Tovarlarni ko'rish →</span></div></div>
+ </div><div class="hdots"><span class="hdot on" onclick="heroGo(0)"></span><span class="hdot" onclick="heroGo(1)"></span><span class="hdot" onclick="heroGo(2)"></span></div></div>
  <div class="cats">${CATS.map(c=>`<div class="cat ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}');go('#/catalog')"><div class="ic"><img src="${G}${c.img}" alt=""></div>${c.n}</div>`).join('')}</div>
  <div class="sec"><b>Ko'p sotilayotganlar</b><a onclick="go('#/catalog')">Hammasi →</a></div>
  <div class="grid" id="grid">${(query?filtered():top).map(card).join('')||emptyGrid()}</div>
  ${query?'':`
  <div class="sec"><b>🆕 Yangi kelganlar</b></div>
  <div class="hscroll">${yang.map(card).join('')}</div>
- <div class="sec"><b>🔥 Hafta taklifi</b></div>
+ <div class="sec"><b>🔥 Hafta taklifi</b><span class="cdpill" id="cd">⏱ hisoblanmoqda…</span></div>
  <div class="grid">${hafta.map(card).join('')}</div>
  ${recent.length?`<div class="sec"><b>👀 Oxirgi ko'rganlaringiz</b></div><div class="hscroll">${recent.map(card).join('')}</div>`:''}
  <p style="text-align:center;color:#aeaeb2;font-size:12px;padding:16px 10px 4px">Azura Market — kanalimizdagi barcha tovarlar shu yerda.<br>Savol bo'lsa botga yozing, javob beramiz 💬</p>`}
@@ -329,8 +370,7 @@ function product(id){
  const inCart=S.cart[p.id];
  const similar=PRODUCTS.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,4);
  const dist=[62,24,9,3,2];
- return `<button class="back" onclick="history.back()">← Orqaga</button>
- <div class="gal"><img class="main" id="galmain" src="${G}${p.imgs[gi]}" alt="">
+ return `<div class="gal"><div class="gbtns"><button class="gb" onclick="history.back()">←</button><div style="display:flex;gap:8px"><button class="gb" onclick="toast('Havola nusxaga olindi 🔗')">⤴</button><button class="gb" onclick="toggleFav(${p.id})">${S.favs.includes(p.id)?'❤️':'🤍'}</button></div></div><img class="main" id="galmain" src="${G}${p.imgs[gi]}" alt="">
  ${p.tag?`<span class="badge">${p.tag}</span>`:''}<span class="gcount">${gi+1} / ${p.imgs.length}</span></div>
  <div class="thumbs">${p.imgs.map((im,i)=>`<img src="${G}${im}" class="${i===gi?'on':''}" onclick="galIdx[${p.id}]=${i};render()">`).join('')}</div>
  <div class="pbody">
@@ -511,6 +551,13 @@ function render(){
 })();
 window.addEventListener('hashchange',render);
 render();
+</script>
+
+<script>
+let heroI=0;
+function heroGo(i){heroI=i;const t=document.getElementById('htrack');if(t)t.style.transform='translateX(-'+(i*100)+'%)';document.querySelectorAll('.hdot').forEach((d,j)=>d.classList.toggle('on',j===i));}
+setInterval(()=>{if(document.getElementById('htrack'))heroGo((heroI+1)%3);},4200);
+setInterval(()=>{const e=document.getElementById('cd');if(!e)return;const now=new Date();const end=new Date(now);end.setDate(now.getDate()+((7-now.getDay())%7||7));end.setHours(23,59,59,999);let s=Math.max(0,Math.floor((end-now)/1000));const d=Math.floor(s/86400);s%=86400;const pad=n=>String(n).padStart(2,'0');e.textContent='⏱ Tugashiga: '+(d>0?d+' kun ':'')+pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60);},1000);
 </script>
 </body>
 </html>
