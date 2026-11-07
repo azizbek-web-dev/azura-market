@@ -396,8 +396,11 @@ function filtered(){
  else arr.sort((a,b)=>b.sold-a.sold);
  return arr;
 }
+function kbOff(){document.body.classList.remove('kb');}
 document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='q')document.body.classList.add('kb');});
-document.addEventListener('focusout',function(e){if(e.target&&e.target.id==='q')document.body.classList.remove('kb');});
+document.addEventListener('focusout',function(e){if(e.target&&e.target.id==='q')setTimeout(function(){if(!document.activeElement||document.activeElement.id!=='q')kbOff();},60);});
+if(window.visualViewport){window.visualViewport.addEventListener('resize',function(){if(window.visualViewport.height>window.innerHeight*0.82)kbOff();});}
+window.addEventListener('hashchange',kbOff);
 function onSearch(v){query=v;const g=document.getElementById('grid');if(g){g.innerHTML=filtered().map(card).join('')||emptyGrid();}}
 function emptyGrid(){return `<div class="empty" style="grid-column:1/-1"><div class="em" style="color:#c9c9d1">${ico('search','xl')}</div><b>Hech narsa topilmadi</b>Yozuvni tekshirib, qayta qidiring</div>`;}
 function setCat(k){filterCat=k;render();}
