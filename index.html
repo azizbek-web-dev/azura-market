@@ -29,7 +29,8 @@ input,select,textarea{font-family:inherit;font-size:15px}
 .cats{display:flex;gap:4px;padding:2px 8px 4px;overflow-x:auto;scrollbar-width:none}
 .cats::-webkit-scrollbar{display:none}
 .cat{min-width:58px;text-align:center;font-size:10.5px;color:#333;cursor:pointer}
-.cat .ic{width:50px;height:50px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 5px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cat .ic{width:50px;height:50px;border-radius:50%;background:#fff;overflow:hidden;margin:0 auto 5px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.cat .ic img{width:100%;height:100%;object-fit:cover;display:block}
 .cat.on .ic{outline:2.5px solid var(--p)}
 .cat.on{color:var(--p);font-weight:700}
 /* sections & grid */
@@ -37,7 +38,8 @@ input,select,textarea{font-family:inherit;font-size:15px}
 .sec b{font-size:17px}.sec a{font-size:12.5px;color:var(--p);font-weight:600;cursor:pointer}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px}
 .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer}
-.ph{height:118px;display:flex;align-items:center;justify-content:center;font-size:58px;position:relative}
+.ph{height:138px;position:relative;overflow:hidden;background:#ececf1}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
 .badge{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:6px}
 .badge.new{background:var(--gr)}
 .fav{position:absolute;top:4px;right:8px;font-size:19px;color:#c7c7cc;background:none}
@@ -45,6 +47,7 @@ input,select,textarea{font-family:inherit;font-size:15px}
 .info{padding:9px 10px 11px}
 .price{color:var(--p);font-weight:800;font-size:15px}
 .old{color:#aeaeb2;font-size:11.5px;text-decoration:line-through;margin-left:5px}
+.info .old{display:block;margin:2px 0 0}
 .pname{font-size:12.8px;color:#222;margin-top:4px;line-height:1.3;min-height:33px}
 .rate{font-size:11px;color:#ff9500;margin-top:3px}
 .add{margin-top:8px;background:var(--p);color:#fff;text-align:center;padding:9px;border-radius:9px;font-size:12.5px;font-weight:700;width:100%}
@@ -60,7 +63,8 @@ input,select,textarea{font-family:inherit;font-size:15px}
 .ptitle{font-size:20px;font-weight:800;margin-bottom:12px}
 .back{background:none;font-size:15px;color:var(--p);font-weight:600;padding:12px 14px 0;display:block}
 /* product */
-.pbig{height:280px;display:flex;align-items:center;justify-content:center;font-size:150px;position:relative;border-radius:0 0 22px 22px}
+.pbig{height:320px;position:relative;border-radius:0 0 22px 22px;overflow:hidden;background:#ececf1}
+.pbig img{width:100%;height:100%;object-fit:cover;display:block}
 .pbody{padding:16px}
 .pbody .price{font-size:23px}
 .pbody h2{font-size:19px;margin:8px 0 4px;line-height:1.3}
@@ -81,7 +85,8 @@ input,select,textarea{font-family:inherit;font-size:15px}
 .feat div b{display:block;font-size:16px}
 /* cart */
 .crow{background:#fff;border-radius:14px;padding:11px;display:flex;gap:11px;margin-bottom:10px;align-items:center}
-.cph{width:66px;height:66px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0}
+.cph{width:66px;height:66px;border-radius:11px;overflow:hidden;flex-shrink:0;background:#ececf1}
+.cph img{width:100%;height:100%;object-fit:cover;display:block}
 .crow .nm{font-size:13.5px;font-weight:600;line-height:1.3}
 .crow .vr{font-size:11.5px;color:#8e8e93;margin-top:2px}
 .crow .pr{color:var(--p);font-weight:800;font-size:14px;margin-top:4px}
@@ -132,18 +137,18 @@ input,select,textarea{font-family:inherit;font-size:15px}
 <div class="toast" id="toast"></div>
 <script>
 const PRODUCTS=[
- {id:1,em:"👟",bg:"#eef3ff",name:"Nike uslubidagi krossovka, havo yostig'i",price:349000,old:545000,rate:"4.9",rev:212,cat:"poyabzal",tag:"-36%",desc:"Yengil va havo o'tkazadigan ustki qism, yumshoq havo yostig'i tagligi. Kundalik yurish va sport uchun ideal. Asl qutisi bilan keladi.",opts:["40","41","42","43","44","45"],olab:"O'lcham"},
- {id:2,em:"⌚",bg:"#fff3e6",name:"Smart soat, AMOLED ekran, qo'ng'iroq",price:189000,old:235000,rate:"4.8",rev:167,cat:"texnika",tag:"-20%",desc:"1.43 dyuym AMOLED ekran, Bluetooth qo'ng'iroq, puls va uyqu kuzatuvi, 10 kun batareya. Suvdan himoya IP68.",opts:["Qora","Kulrang","Ko'k"],olab:"Rang"},
- {id:3,em:"🎧",bg:"#f0eaff",name:"Simsiz quloqchin, shovqin bekor qilish",price:129000,old:159000,rate:"4.7",rev:98,cat:"texnika",tag:"",desc:"ANC faol shovqin bekor qilish, 36 soat umumiy ishlash, tez quvvatlash — 10 daqiqa = 5 soat musiqa.",opts:["Oq","Qora"],olab:"Rang"},
- {id:4,em:"👜",bg:"#e8f8ee",name:"Teri sumka, kundalik uslub, 3 rang",price:219000,old:0,rate:"5.0",rev:41,cat:"aksessuar",tag:"YANGI",desc:"Tabiiy teri, ichida 3 ta bo'lma, yelka kamari bilan. Ofis va kundalik uslubga mos.",opts:["Jigarrang","Qora","Bej"],olab:"Rang"},
- {id:5,em:"🧥",bg:"#fdf0ec",name:"Kuzgi kurtka, suv o'tkazmaydi",price:429000,old:499000,rate:"4.8",rev:74,cat:"kiyim",tag:"-14%",desc:"Suv o'tkazmaydigan membrana, kapyushon echiladi. Bahor-kuz mavsumi uchun, ichi astarli.",opts:["S","M","L","XL"],olab:"O'lcham"},
- {id:6,em:"👖",bg:"#eef6ff",name:"Jinsi shim, klassik bichim",price:259000,old:0,rate:"4.6",rev:59,cat:"kiyim",tag:"",desc:"Zich denim, cho'ziluvchan mato. Klassik ko'k rang, barcha o'lchamlar bor.",opts:["30","31","32","33","34","36"],olab:"O'lcham"},
- {id:7,em:"🎒",bg:"#eafaf0",name:"Shahar ryukzaki 20L, noutbuk bo'lmasi",price:179000,old:220000,rate:"4.9",rev:133,cat:"aksessuar",tag:"-19%",desc:"15.6 dyuym noutbuk bo'lmasi, USB chiqish, suvdan himoya. Ish va o'qish uchun qulay.",opts:["Qora","Kulrang"],olab:"Rang"},
- {id:8,em:"📱",bg:"#fff8e1",name:"Telefon g'ilofi + himoya oynasi to'plami",price:49000,old:79000,rate:"4.7",rev:320,cat:"texnika",tag:"-38%",desc:"Zarbaga chidamli g'ilof va 9H himoya oynasi bir to'plamda. Barcha mashhur modellarga bor.",opts:["iPhone","Samsung","Xiaomi","Redmi"],olab:"Model"},
- {id:9,em:"🧢",bg:"#f4f0ff",name:"Kepka, yozgi, nafas oladigan",price:79000,old:0,rate:"4.5",rev:37,cat:"kiyim",tag:"",desc:"Yengil paxta, sozlanadigan kamar. Yoz uchun 3 rangda.",opts:["Qora","Oq","Ko'k"],olab:"Rang"},
- {id:10,em:"🌸",bg:"#fdeef4",name:"Atir, fransuz ifori, 50 ml",price:299000,old:390000,rate:"4.9",rev:88,cat:"aksessuar",tag:"-23%",desc:"Uzoq turadigan ifor, kun bo'yi saqlanadi. Sovg'a qutisida keladi.",opts:["Ayollar","Erkaklar"],olab:"Tur"}
+ {id:1,img:"assets/p1.jpg",name:"Krossovka erkaklar uchun, yugurish va kundalikka, tagligi yumshoq",price:329000,old:479000,rate:"4.8",rev:316,cat:"poyabzal",tag:"-31%",desc:"Tagligi yumshoq — kun bo'yi kiysangiz ham oyoq charchamaydi. Setkasi havo o'tkazadi, yozda ham qulay. O'lchami aniq keladi: odatda qaysi o'lcham kiysangiz, o'shani tanlang.",opts:["40","41","42","43","44","45"],olab:"O'lcham"},
+ {id:2,img:"assets/p2.jpg",name:"Smart soat, qo'ng'iroq qilib bo'ladi, AMOLED ekran",price:219000,old:299000,rate:"4.7",rev:189,cat:"texnika",tag:"-27%",desc:"Telefonga Bluetooth orqali ulanadi, to'g'ridan-to'g'ri soatdan gaplashsangiz bo'ladi. Puls, qadam va uyquni o'lchaydi. Zaryadi 7-10 kun yetadi, kamari qo'shimcha beriladi.",opts:["Ko'k","Qora","Kulrang"],olab:"Rang"},
+ {id:3,img:"assets/p3.jpg",name:"Simsiz quloqchin, mikrofoni bor, quvvat qutisi bilan",price:119000,old:169000,rate:"4.6",rev:427,cat:"texnika",tag:"",desc:"Ovozi baland va tiniq, mikrofoni gaplashganda yaxshi eshitiladi. Qutisi bilan birga zaryadi 20 soatgacha yetadi. Barcha telefonlarga ulanadi.",opts:["Oq","Qora"],olab:"Rang"},
+ {id:4,img:"assets/p4.jpg",name:"Ayollar sumkasi, tabiiy teri, yelkaga osiladigan",price:249000,old:320000,rate:"4.9",rev:98,cat:"aksessuar",tag:"",desc:"Teri yumshoq, choki tekis tikilgan. Ichiga hamyon, telefon va kosmetika bemalol sig'adi. Uzun kamari bor — yelkaga ham, qo'lga ham osiladi.",opts:["Jigarrang","Qora"],olab:"Rang"},
+ {id:5,img:"assets/p5.jpg",name:"Erkaklar kurtkasi, qishki, ichi issiq, suv shimmaydi",price:459000,old:590000,rate:"4.8",rev:64,cat:"kiyim",tag:"-22%",desc:"Qish uchun: ichi qalin, sovuq o'tkazmaydi. Yomg'irda suv shimmaydi, kapyushoni bor. Cho'ntagi 4 ta. O'lcham bo'yicha savol bo'lsa, buyurtmada izoh qoldiring — o'zimiz aniqlashtiramiz.",opts:["M","L","XL","XXL"],olab:"O'lcham"},
+ {id:6,img:"assets/p6.jpg",name:"Jinsi shim erkaklar uchun, klassik ko'k, bichimi to'g'ri",price:189000,old:0,rate:"4.7",rev:143,cat:"kiyim",tag:"",desc:"Denimi zich, tizzasi cho'zilib ketmaydi. Oyoqqa yaxshi o'tiradi. Krossovka bilan ham, tufli bilan ham ketadi.",opts:["30","31","32","33","34","36"],olab:"O'lcham"},
+ {id:7,img:"assets/p7.jpg",name:"Ryukzak, 15.6 noutbuk sig'adi, shahar va o'qish uchun",price:159000,old:210000,rate:"4.8",rev:257,cat:"aksessuar",tag:"-24%",desc:"Noutbuk uchun alohida yumshoq bo'lmasi bor. Orqasi qotib turadi, yelka kamarlari keng — og'ir bo'lsa ham yelkani ezmaydi. Oldida kichik cho'ntagi bor.",opts:["Ko'k","Qora"],olab:"Rang"},
+ {id:8,img:"assets/p8.jpg",name:"Telefon g'ilofi, zarbaga chidamli, shaffof",price:39000,old:65000,rate:"4.6",rev:812,cat:"texnika",tag:"-40%",desc:"Burchaklari kuchaytirilgan — telefon tushib ketsa ham himoya qiladi. Shaffof, orqa ko'rinishi qoladi. Kameraga alohida bo'rtma himoyasi bor. Modelni to'g'ri tanlang.",opts:["iPhone","Samsung","Xiaomi","Redmi"],olab:"Model"},
+ {id:9,img:"assets/p9.jpg",name:"Kepka oq, yozgi, o'lchami orqasidan sozlanadi",price:69000,old:0,rate:"4.5",rev:76,cat:"kiyim",tag:"",desc:"Paxta aralash mato, bosh terlamaydi. Orqasidagi kamar bilan o'lcham sozlanadi. Quyoshdan yaxshi himoya qiladi.",opts:["Oq","Qora","Ko'k"],olab:"Rang"},
+ {id:10,img:"assets/p10.jpg",name:"Atir 50 ml, ifori uzoq turadigan, sovg'aga ham bo'ladi",price:279000,old:350000,rate:"4.9",rev:204,cat:"aksessuar",tag:"-20%",desc:"Ifоri achchiq emas, kun davomida 6-8 soat saqlanadi. Shishasi sovg'a qutisida keladi. Ayollarga ham, erkaklarga ham to'g'ri keladigan universal ifor.",opts:["50 ml","100 ml"],olab:"Hajm"}
 ];
-const CATS=[{k:"all",em:"🛍️",n:"Hammasi"},{k:"kiyim",em:"👕",n:"Kiyim"},{k:"poyabzal",em:"👟",n:"Poyabzal"},{k:"texnika",em:"📱",n:"Texnika"},{k:"aksessuar",em:"👜",n:"Aksessuar"}];
+const CATS=[{k:"all",img:"assets/p1.jpg",n:"Hammasi"},{k:"kiyim",img:"assets/p5.jpg",n:"Kiyim"},{k:"poyabzal",img:"assets/p1.jpg",n:"Poyabzal"},{k:"texnika",img:"assets/p2.jpg",n:"Texnika"},{k:"aksessuar",img:"assets/p4.jpg",n:"Aksessuar"}];
 let cart={}, favs=new Set(), orders=[], pay="click", selOpt={}, selQty=1;
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
 if(tg){tg.ready();tg.expand();}
@@ -163,14 +168,14 @@ function nav(active){
  <button class="${active==='profile'?'on':''}" onclick="go('#/profile')"><div>👤</div>Profil</button></div>`;
 }
 function header(){
- return `<div class="header"><div class="top"><span>📍 Toshkent • Yetkazish</span><span class="bell">🔔<i></i></span></div>
+ return `<div class="header"><div class="top"><span>📍 Toshkent shahri</span><span class="bell">🔔<i></i></span></div>
  <div class="logo">MARKET<span>•</span>UZ</div>
- <div class="search">🔍 <input id="q" placeholder="Tovar qidirish — krossovka, soat..." oninput="onSearch(this.value)"></div></div>`;
+ <div class="search">🔍 <input id="q" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div></div>`;
 }
 function card(p){
  const inCart=cart[p.id];
  return `<div class="card" onclick="go('#/product/${p.id}')">
- <div class="ph" style="background:${p.bg}">${p.em}${p.tag?`<span class="badge ${p.tag==='YANGI'?'new':''}">${p.tag}</span>`:''}<button class="fav ${favs.has(p.id)?'on':''}" onclick="event.stopPropagation();toggleFav(${p.id})">${favs.has(p.id)?'❤️':'♡'}</button></div>
+ <div class="ph"><img src="${p.img}" alt="" loading="lazy">${p.tag?`<span class="badge ${p.tag==='YANGI'?'new':''}">${p.tag}</span>`:''}<button class="fav ${favs.has(p.id)?'on':''}" onclick="event.stopPropagation();toggleFav(${p.id})">${favs.has(p.id)?'❤️':'♡'}</button></div>
  <div class="info"><span class="price">${fmt(p.price)}</span>${p.old?`<span class="old">${fmt(p.old)}</span>`:''}
  <div class="pname">${p.name}</div><div class="rate">★ ${p.rate} (${p.rev})</div>
  <button class="add ${inCart?'added':''}" onclick="event.stopPropagation();quickAdd(${p.id})">${inCart?'✓ Savatda ('+inCart.qty+')':'🛒 Savatga'}</button></div></div>`;
@@ -183,14 +188,14 @@ function setCat(k){filterCat=k;render();}
 function home(){
  filterCat=filterCat||"all";
  return header()+`
- <div class="banner"><b>CHEGIRMA -50% gacha</b><small>Faqat shu hafta • Kanal obunachilariga</small><br><span class="chip">Ko'rish →</span></div>
- <div class="cats">${CATS.map(c=>`<div class="cat ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}')"><div class="ic">${c.em}</div>${c.n}</div>`).join('')}</div>
- <div class="sec"><b>🔥 Top tovarlar</b><a onclick="go('#/catalog')">Hammasi →</a></div>
+ <div class="banner"><b>Juma chegirmasi 🛍</b><small>Krossovkalar 329 mingdan — hafta oxirigacha</small><br><span class="chip">Ko'rish →</span></div>
+ <div class="cats">${CATS.map(c=>`<div class="cat ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}')"><div class="ic"><img src="${c.img}" alt=""></div>${c.n}</div>`).join('')}</div>
+ <div class="sec"><b>Ko'p sotilayotganlar</b><a onclick="go('#/catalog')">Hammasi →</a></div>
  <div class="grid" id="grid">${filtered().map(card).join('')||emptyGrid()}</div>`+nav('home');
 }
 function catalog(){
  return header()+`<div class="sec" style="padding-top:16px"><b>🧭 Katalog</b></div>
- <div class="chips">${CATS.map(c=>`<button class="chip2 ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}')">${c.em} ${c.n}</button>`).join('')}</div>
+ <div class="chips">${CATS.map(c=>`<button class="chip2 ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}')">${c.n}</button>`).join('')}</div>
  <div class="grid" id="grid">${filtered().map(card).join('')||emptyGrid()}</div>`+nav('catalog');
 }
 function product(id){
@@ -198,10 +203,10 @@ function product(id){
  if(selOpt[p.id]===undefined)selOpt[p.id]=p.opts[0];selQty=cart[p.id]?cart[p.id].qty:1;
  const inCart=cart[p.id];
  return `<button class="back" onclick="history.back()">← Orqaga</button>
- <div class="pbig" style="background:${p.bg}">${p.em}${p.tag?`<span class="badge ${p.tag==='YANGI'?'new':''}" style="font-size:13px;padding:5px 10px">${p.tag}</span>`:''}</div>
+ <div class="pbig"><img src="${p.img}" alt="">${p.tag?`<span class="badge ${p.tag==='YANGI'?'new':''}" style="font-size:13px;padding:5px 10px">${p.tag}</span>`:''}</div>
  <div class="pbody">
  <span class="price">${fmt(p.price)}</span>${p.old?`<span class="old" style="font-size:14px">${fmt(p.old)}</span>`:''}
- <h2>${p.name}</h2><div class="rate" style="font-size:13px">★ ${p.rate} • ${p.rev} ta baho • 100+ sotilgan</div>
+ <h2>${p.name}</h2><div class="rate" style="font-size:13px">★ ${p.rate} • ${p.rev} ta sharh</div>
  <p class="desc">${p.desc}</p>
  <div class="opt"><b>${p.olab}:</b><div class="selrow">${p.opts.map(o=>`<button class="sel ${selOpt[p.id]===o?'on':''}" onclick="selOpt[${p.id}]='${o}';render()">${o}</button>`).join('')}</div></div>
  <div class="opt"><b>Miqdor:</b><div class="qty"><button onclick="selQty=Math.max(1,selQty-1);render()">−</button><b>${selQty}</b><button onclick="selQty++;render()">+</button></div></div>
@@ -209,18 +214,18 @@ function product(id){
  <div class="feat"><div><b>🚚</b>Yetkazish<br>1–2 kun, bepul*</div><div><b>↩️</b>Qaytarish<br>14 kun ichida</div><div><b>🛡️</b>Kafolat<br>Rasmiy</div></div>
  </div>`+nav('');
 }
-function addCart(id,stay){const p=byId(id);cart[id]={id,qty:selQty,opt:selOpt[id]||p.opts[0]};toast('Savatga qo\'shildi 🛒');render();}
+function addCart(id,stay){const p=byId(id);cart[id]={id,qty:selQty,opt:selOpt[id]||p.opts[0]};toast('Savatga tushdi ✓');render();}
 function buyNow(id){addCartSilent(id);go('#/checkout');}
 function addCartSilent(id){const p=byId(id);cart[id]={id,qty:selQty,opt:selOpt[id]||p.opts[0]};}
-function quickAdd(id){const p=byId(id);if(cart[id])cart[id].qty++;else cart[id]={id,qty:1,opt:p.opts[0]};toast('Savatga qo\'shildi 🛒');render();}
+function quickAdd(id){const p=byId(id);if(cart[id])cart[id].qty++;else cart[id]={id,qty:1,opt:p.opts[0]};toast('Savatga tushdi ✓');render();}
 function toggleFav(id){favs.has(id)?favs.delete(id):favs.add(id);render();}
 function setQty(id,d){cart[id].qty+=d;if(cart[id].qty<1)delete cart[id];render();}
 function cartPage(){
  const items=Object.values(cart);
- if(!items.length)return `<div class="page"><div class="ptitle">🛒 Savat</div><div class="empty"><div class="em">🛒</div><b>Savat bo'sh</b>Katalogdan tovar tanlang</div><button class="cta" onclick="go('#/catalog')">Katalogga o'tish</button></div>`+nav('cart');
+ if(!items.length)return `<div class="page"><div class="ptitle">🛒 Savat</div><div class="empty"><div class="em">🛒</div><b>Savat hozircha bo'sh</b>Yangi tovarlar kelgan, bir ko'rib chiqing</div><button class="cta" onclick="go('#/catalog')">Katalogga o'tish</button></div>`+nav('cart');
  const sum=cartSum(),del=sum>=300000?0:25000;
  return `<div class="page"><div class="ptitle">🛒 Savat</div>
- ${items.map(c=>{const p=byId(c.id);return `<div class="crow"><div class="cph" style="background:${p.bg}">${p.em}</div>
+ ${items.map(c=>{const p=byId(c.id);return `<div class="crow"><div class="cph"><img src="${p.img}" alt=""></div>
  <div style="flex:1"><div class="nm">${p.name}</div><div class="vr">${p.olab}: ${c.opt}</div><div class="pr">${fmt(p.price*c.qty)}</div></div>
  <div class="qty"><button onclick="setQty(${p.id},-1)">−</button><b>${c.qty}</b><button onclick="setQty(${p.id},1)">+</button></div>
  <button class="del" onclick="delete cart[${p.id}];render()">✕</button></div>`;}).join('')}
@@ -245,22 +250,22 @@ function checkout(){
 function placeOrder(){
  const name=(document.getElementById('f-name')||{}).value||"Mijoz";
  const phone=(document.getElementById('f-phone')||{}).value||"";
- if(!phone){toast('Telefon raqamni yozing 📱');return;}
+ if(!phone){toast('Telefon raqamingizni yozing, qo\'ng\'iroq qilamiz');return;}
  const sum=cartSum(),del=sum>=300000?0:25000;
- const ord={no:1000+orders.length+1,items:Object.values(cart).map(c=>{const p=byId(c.id);return `${p.em} ${p.name} ×${c.qty}`;}).join('<br>'),total:sum+del,pay:pay==='cash'?'Naqd':pay==='click'?'Click':'Payme',name,status:'Qabul qilindi',date:new Date().toLocaleString('uz-UZ')};
+ const ord={no:1000+orders.length+1,items:Object.values(cart).map(c=>{const p=byId(c.id);return `${p.name} ×${c.qty}`;}).join('<br>'),total:sum+del,pay:pay==='cash'?'Naqd':pay==='click'?'Click':'Payme',name,status:'Qabul qilindi',date:new Date().toLocaleString('uz-UZ')};
  orders.unshift(ord);cart={};
  if(tg){tg.sendData&&tg.sendData(JSON.stringify({type:'order',order:ord}));}
  go('#/done');
 }
 function donePage(){
  const o=orders[0];
- return `<div class="ok"><div class="em">✅</div><h2>Buyurtma qabul qilindi!</h2>
- <p>Buyurtma № <b>${o?o.no:''}</b><br>Operator tez orada tasdiqlash uchun qo'ng'iroq qiladi.<br>Holati «Buyurtma» bo'limida ko'rinadi.</p>
+ return `<div class="ok"><div class="em">✅</div><h2>Rahmat, buyurtmangiz yetib keldi! 🎉</h2>
+ <p>Buyurtma № <b>${o?o.no:''}</b><br>Endi operator qo'ng'iroq qiladi — manzilni aniqlashtirib, yuborib yuboramiz.<br>Holati «Buyurtma» bo'limida ko'rinadi.</p>
  <button class="cta" style="max-width:300px" onclick="go('#/orders')">📦 Buyurtmalarim</button>
  <button class="cta" style="max-width:300px;background:#16161a" onclick="go('#/')">🏠 Bosh sahifaga</button></div>`+nav('');
 }
 function ordersPage(){
- if(!orders.length)return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div><div class="empty"><div class="em">📦</div><b>Hali buyurtma yo'q</b>Birinchi xaridingizni qiling</div><button class="cta" onclick="go('#/')">Xaridni boshlash</button></div>`+nav('orders');
+ if(!orders.length)return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div><div class="empty"><div class="em">📦</div><b>Hozircha buyurtma yo'q</b>Birinchi buyurtmangizga yetkazish bizdan sovg'a</div><button class="cta" onclick="go('#/')">Xaridni boshlash</button></div>`+nav('orders');
  return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div>${orders.map(o=>`<div class="ord"><div class="oh"><span>№ ${o.no} • ${o.date}</span><span class="st">${o.status}</span></div><div class="oi">${o.items}</div><div class="ot">${fmt(o.total)} • ${o.pay}</div></div>`).join('')}</div>`+nav('orders');
 }
 function profile(){
