@@ -350,7 +350,7 @@ function nav(active){
  <button class="${active==='profile'?'on':''}" onclick="go('#/profile')"><div>${ico('user')}</div>Profil</button></div>`;
 }
 function header(){
- return `<div class="header"><div class="top"><div style="display:flex;align-items:center;gap:9px"><img src="assets/logo.png" alt="Azura" style="width:35px;height:35px;border-radius:10px;display:block;box-shadow:0 3px 9px rgba(20,16,31,.25)"><span class="logo" style="margin:0">AZURA</span></div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;opacity:.95">${ico('pin','sm')} Toshkent</span></div>
+ return `<div class="header"><div class="top"><img src="assets/logo-user.png" alt="Azura — Student Market" style="height:43px;width:auto;border-radius:11px;display:block"><span style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;opacity:.95">${ico('pin','sm')} Toshkent</span></div>
  <div class="search">${ico('search')} <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div></div>`;
 }
 function starsHTML(r){const f=Math.round(r);return "★★★★★".slice(0,f)+"☆☆☆☆☆".slice(0,5-f);}
