@@ -230,6 +230,20 @@ body{background:#f3f3f7}
 .buybar{box-shadow:0 -6px 22px rgba(0,0,0,.09)}
 input:focus,select:focus,textarea:focus{border-color:var(--p)!important;box-shadow:0 0 0 3px rgba(112,0,255,.12)}
 .gal .badge{top:58px;left:12px}
+.ic{width:22px;height:22px;vertical-align:-4px}
+.ic.sm{width:15px;height:15px;vertical-align:-2px}
+.ic.xl{width:58px;height:58px;stroke-width:1.2}
+.search .ic{width:18px;height:18px;color:#8e8e93;flex-shrink:0}
+.bell .ic{width:21px;height:21px}
+.fav .ic{width:21px;height:21px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35))}
+.fav.on .ic{filter:none}
+.gb .ic{width:19px;height:19px;vertical-align:middle}
+.add .ic{vertical-align:-2px}
+.plogo{font-size:17px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px}
+.mi-t{display:inline-flex;align-items:center;gap:10px}
+.mi-t .ic{width:21px;height:21px;color:var(--p)}
+.infocard b.t .ic{color:var(--p);vertical-align:-3px}
+.obtns .ic{vertical-align:-2px}
 </style>
 </head>
 <body>
@@ -271,33 +285,55 @@ const promoDisc=()=>S.promo&&PROMOS[S.promo]?Math.round(goodsSum()*PROMOS[S.prom
 function dateStr(add){const d=new Date();d.setDate(d.getDate()+add);return d.getDate()+"-"+MONTHS[d.getMonth()];}
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1900);if(tg&&tg.HapticFeedback)try{tg.HapticFeedback.impactOccurred('light');}catch(e){}}
 function go(h){location.hash=h;}
+const P_ICO={
+home:'<path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.8V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.8"/>',
+grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 3h2l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h7.9a1.5 1.5 0 0 0 1.5-1.2L20.5 7H6"/>',
+box:'<path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-3.6 4.5-5 8-5s6.5 1.4 8 5"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/>',
+bell:'<path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/>',
+pin:'<path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+share:'<path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/>',
+back:'<path d="M15 5l-7 7 7 7"/>',
+check:'<path d="M4 12.5l5 5L20 6.5"/>',
+truck:'<path d="M2 6h12v10H2z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="6.5" cy="18" r="1.7"/><circle cx="17" cy="18" r="1.7"/>',
+ret:'<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>',
+store:'<path d="M4 7l1.5-4h13L20 7"/><path d="M4 7h16v3a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0A2.7 2.7 0 0 1 4 10V7z"/><path d="M5.5 12.5V20h13v-7.5"/>',
+gift:'<rect x="3.5" y="8" width="17" height="4"/><path d="M5 12v8.5h14V12"/><path d="M12 8v12.5"/><path d="M12 8s-4 .2-5.2-1.2C5.7 5.5 7.3 3.7 9 4.2 11 4.7 12 8 12 8z"/><path d="M12 8s4 .2 5.2-1.2c1.1-1.3-.5-3.1-2.2-2.6C13 4.7 12 8 12 8z"/>',
+chat:'<path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 21l2-5.6A8.5 8.5 0 1 1 21 11.5z"/>',
+heart:'<path d="M12 20.7C6 16.6 3 13.4 3 9.9 3 7.2 5 5 7.6 5c1.8 0 3.4 1 4.4 2.6C13 6 14.6 5 16.4 5 19 5 21 7.2 21 9.9c0 3.5-3 6.7-9 10.8z"/>',
+cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5h.01M18 14.5h.01"/>'};
+function ico(n,c){return '<svg class="ic '+(c||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+P_ICO[n]+'</svg>';}
+function icoF(n,c){return '<svg class="ic '+(c||'')+'" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 16.9 6.6 19.8l1.1-6.1L3.2 9.4l6.1-.8z"/></svg>';}
+function heartIco(on,dark){return '<svg class="ic" viewBox="0 0 24 24" fill="'+(on?'#ff3b5c':(dark?'none':'rgba(0,0,0,.22)'))+'" stroke="'+(on?'#ff3b5c':(dark?'#16161a':'#fff'))+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.7C6 16.6 3 13.4 3 9.9 3 7.2 5 5 7.6 5c1.8 0 3.4 1 4.4 2.6C13 6 14.6 5 16.4 5 19 5 21 7.2 21 9.9c0 3.5-3 6.7-9 10.8z"/></svg>';}
 function nav(active){
  const c=cartCount();
  return `<div class="nav">
- <button class="${active==='home'?'on':''}" onclick="go('#/')"><div>🏠</div>Bosh sahifa</button>
- <button class="${active==='catalog'?'on':''}" onclick="go('#/catalog')"><div>🧭</div>Katalog</button>
- <button class="${active==='cart'?'on':''}" onclick="go('#/cart')"><div>🛒</div>Savat${c?`<span class="cnt">${c}</span>`:''}</button>
- <button class="${active==='orders'?'on':''}" onclick="go('#/orders')"><div>📦</div>Buyurtma</button>
- <button class="${active==='profile'?'on':''}" onclick="go('#/profile')"><div>👤</div>Profil</button></div>`;
+ <button class="${active==='home'?'on':''}" onclick="go('#/')"><div>${ico('home')}</div>Bosh sahifa</button>
+ <button class="${active==='catalog'?'on':''}" onclick="go('#/catalog')"><div>${ico('grid')}</div>Katalog</button>
+ <button class="${active==='cart'?'on':''}" onclick="go('#/cart')"><div>${ico('cart')}</div>Savat${c?`<span class="cnt">${c}</span>`:''}</button>
+ <button class="${active==='orders'?'on':''}" onclick="go('#/orders')"><div>${ico('box')}</div>Buyurtma</button>
+ <button class="${active==='profile'?'on':''}" onclick="go('#/profile')"><div>${ico('user')}</div>Profil</button></div>`;
 }
 function header(){
- return `<div class="header"><div class="top"><span>📍 Toshkent shahri</span><span class="bell">🔔<i></i></span></div>
+ return `<div class="header"><div class="top"><span style="display:inline-flex;align-items:center;gap:4px">${ico('pin','sm')} Toshkent shahri</span><span class="bell">${ico('bell')}<i></i></span></div>
  <div class="logo">AZURA<span>•</span>MARKET</div>
- <div class="search">🔍 <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div>
- <div style="display:flex;justify-content:space-between;margin-top:11px;font-size:12px;opacity:.96"><span>🚚 Toshkentga yetkazish: <b>ertaga</b></span><span>⭐ 4.8 • 1 200+ xaridor</span></div></div>`;
+ <div class="search">${ico('search')} <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div>
+ <div style="display:flex;justify-content:space-between;margin-top:11px;font-size:12px;opacity:.96"><span style="display:inline-flex;align-items:center;gap:5px">${ico('truck','sm')} Toshkentga yetkazish: <b>ertaga</b></span><span style="display:inline-flex;align-items:center;gap:4px"><span style="color:#ffe600;display:inline-flex">${icoF('star','sm')}</span> 4.8 • 1 200+ xaridor</span></div></div>`;
 }
 function starsHTML(r){const f=Math.round(r);return "★★★★★".slice(0,f)+"☆☆☆☆☆".slice(0,5-f);}
 function card(p){
  const inCart=S.cart[p.id];
  return `<div class="card" onclick="go('#/product/${p.id}')">
- <div class="ph"><img src="${G}${p.imgs[0]}" alt="" loading="lazy">${p.tag?`<span class="badge">${p.tag}</span>`:''}<button class="fav ${S.favs.includes(p.id)?'on':''}" onclick="event.stopPropagation();toggleFav(${p.id})">${S.favs.includes(p.id)?'❤️':'♡'}</button></div>
+ <div class="ph"><img src="${G}${p.imgs[0]}" alt="" loading="lazy">${p.tag?`<span class="badge">${p.tag}</span>`:''}<button class="fav ${S.favs.includes(p.id)?'on':''}" onclick="event.stopPropagation();toggleFav(${p.id})">${heartIco(S.favs.includes(p.id))}</button></div>
  <div class="info"><span class="price">${fmt(p.price)}</span>${p.old?`<span class="old">${fmt(p.old)}</span>`:''}
  <span class="inst">oyiga ${fmt(inst(p))} dan</span>
  <div class="pname">${p.name}</div>
  <div class="rate">★ ${p.rate} <i>(${p.rev} sharh) • ${p.sold} sotilgan</i></div>
  <div class="stockline ${p.stock<=5?'low':''}">${p.stock<=5?'⚠️ Kam qoldi: '+p.stock+' dona':'Bor: '+p.stock+' dona'}</div>
  ${p.old?`<div class="soldbar"><div style="width:${20+(p.sold%65)}%"></div></div><div class="soldtxt">🔥 Aksiyada ${p.sold} ta sotildi</div>`:''}
- <button class="add ${inCart?'added':''}" onclick="event.stopPropagation();quickAdd(${p.id})">${inCart?'✓ Savatda ('+inCart.qty+')':'🛒 Savatga'}</button></div></div>`;
+ <button class="add ${inCart?'added':''}" onclick="event.stopPropagation();quickAdd(${p.id})">${inCart?'✓ Savatda ('+inCart.qty+')':ico('cart','sm')+' Savatga'}</button></div></div>`;
 }
 function filtered(){
  let arr=PRODUCTS.filter(p=>(filterCat==="all"||p.cat===filterCat)&&p.name.toLowerCase().includes(query.toLowerCase()));
@@ -312,7 +348,7 @@ function filtered(){
  return arr;
 }
 function onSearch(v){query=v;const g=document.getElementById('grid');if(g){g.innerHTML=filtered().map(card).join('')||emptyGrid();}}
-function emptyGrid(){return `<div class="empty" style="grid-column:1/-1"><div class="em">🔍</div><b>Hech narsa topilmadi</b>Yozuvni tekshirib, qayta qidiring</div>`;}
+function emptyGrid(){return `<div class="empty" style="grid-column:1/-1"><div class="em" style="color:#c9c9d1">${ico('search','xl')}</div><b>Hech narsa topilmadi</b>Yozuvni tekshirib, qayta qidiring</div>`;}
 function setCat(k){filterCat=k;render();}
 function toggleFav(id){const i=S.favs.indexOf(id);if(i>=0)S.favs.splice(i,1);else{S.favs.push(id);toast('Sevimlilarga qo\'shildi ❤️');}save();render();}
 function quickAdd(id){const p=byId(id);if(S.cart[id])S.cart[id].qty++;else S.cart[id]={id,qty:1,opt:p.opts[0]};save();toast('Savatga tushdi ✓');render();}
@@ -334,17 +370,17 @@ function home(){
  <div class="sec"><b>Ko'p sotilayotganlar</b><a onclick="go('#/catalog')">Hammasi →</a></div>
  <div class="grid" id="grid">${(query?filtered():top).map(card).join('')||emptyGrid()}</div>
  ${query?'':`
- <div class="sec"><b>🆕 Yangi kelganlar</b></div>
+ <div class="sec"><b>Yangi kelganlar</b></div>
  <div class="hscroll">${yang.map(card).join('')}</div>
- <div class="sec"><b>🔥 Hafta taklifi</b><span class="cdpill" id="cd">⏱ hisoblanmoqda…</span></div>
+ <div class="sec"><b>Hafta taklifi</b><span class="cdpill" id="cd">hisoblanmoqda…</span></div>
  <div class="grid">${hafta.map(card).join('')}</div>
- ${recent.length?`<div class="sec"><b>👀 Oxirgi ko'rganlaringiz</b></div><div class="hscroll">${recent.map(card).join('')}</div>`:''}
+ ${recent.length?`<div class="sec"><b>Oxirgi ko'rganlaringiz</b></div><div class="hscroll">${recent.map(card).join('')}</div>`:''}
  <p style="text-align:center;color:#aeaeb2;font-size:12px;padding:16px 10px 4px">Azura Market — kanalimizdagi barcha tovarlar shu yerda.<br>Savol bo'lsa botga yozing, javob beramiz 💬</p>`}
  `+nav('home');
 }
 function setQuery(w){query=w;render();}
 function catalog(){
- return header()+`<div class="sec" style="padding-top:16px"><b>🧭 Katalog</b>
+ return header()+`<div class="sec" style="padding-top:16px"><b>Katalog</b>
  <select class="sortsel" onchange="sortBy=this.value;render()">
  <option value="pop" ${sortBy==='pop'?'selected':''}>Avval mashhurlari</option>
  <option value="cheap" ${sortBy==='cheap'?'selected':''}>Avval arzonlari</option>
@@ -356,7 +392,7 @@ function catalog(){
  <button class="chip2 ${priceBand==='u100'?'on':''}" onclick="priceBand='u100';render()">100 minggacha</button>
  <button class="chip2 ${priceBand==='100300'?'on':''}" onclick="priceBand='100300';render()">100–300 ming</button>
  <button class="chip2 ${priceBand==='o300'?'on':''}" onclick="priceBand='o300';render()">300 mingdan yuqori</button>
- <button class="chip2 ${onlyDisc?'on':''}" onclick="onlyDisc=!onlyDisc;render()">🏷 Faqat chegirmada</button>
+ <button class="chip2 ${onlyDisc?'on':''}" onclick="onlyDisc=!onlyDisc;render()">Faqat chegirmada</button>
  </div>
  <p style="padding:0 14px 8px;color:#8e8e93;font-size:12.5px">${filtered().length} ta tovar topildi</p>
  <div class="grid" id="grid">${filtered().map(card).join('')||emptyGrid()}</div>`+nav('catalog');
@@ -370,12 +406,12 @@ function product(id){
  const inCart=S.cart[p.id];
  const similar=PRODUCTS.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,4);
  const dist=[62,24,9,3,2];
- return `<div class="gal"><div class="gbtns"><button class="gb" onclick="history.back()">←</button><div style="display:flex;gap:8px"><button class="gb" onclick="toast('Havola nusxaga olindi 🔗')">⤴</button><button class="gb" onclick="toggleFav(${p.id})">${S.favs.includes(p.id)?'❤️':'🤍'}</button></div></div><img class="main" id="galmain" src="${G}${p.imgs[gi]}" alt="">
+ return `<div class="gal"><div class="gbtns"><button class="gb" onclick="history.back()">${ico('back')}</button><div style="display:flex;gap:8px"><button class="gb" onclick="toast('Havola nusxaga olindi 🔗')">${ico('share')}</button><button class="gb" onclick="toggleFav(${p.id})">${heartIco(S.favs.includes(p.id),true)}</button></div></div><img class="main" id="galmain" src="${G}${p.imgs[gi]}" alt="">
  ${p.tag?`<span class="badge">${p.tag}</span>`:''}<span class="gcount">${gi+1} / ${p.imgs.length}</span></div>
  <div class="thumbs">${p.imgs.map((im,i)=>`<img src="${G}${im}" class="${i===gi?'on':''}" onclick="galIdx[${p.id}]=${i};render()">`).join('')}</div>
  <div class="pbody">
  <div class="pprice"><span class="price">${fmt(p.price)}</span>${p.old?`<span class="old">${fmt(p.old)}</span><span class="disc">-${discPct(p)}%</span>`:''}</div>
- <div class="instbox">💳 <b>Bo'lib to'lash:</b> 3 oyga, oyiga <b>${fmt(inst(p))}</b> dan<br><small style="color:#8e8e93">Yoki bir yo'la to'liq to'lov — qanday qulay bo'lsa.</small></div>
+ <div class="instbox">${ico('cash','sm')} <b>Bo'lib to'lash:</b> 3 oyga, oyiga <b>${fmt(inst(p))}</b> dan<br><small style="color:#8e8e93">Yoki bir yo'la to'liq to'lov — qanday qulay bo'lsa.</small></div>
  <h2>${p.name}</h2>
  <div class="rate" style="font-size:13px">★ ${p.rate} <i>• ${p.rev} ta sharh • ${p.sold} marta sotilgan</i></div>
  <div class="stockline ${p.stock<=5?'low':''}" style="font-size:13px;margin-top:6px">${p.stock<=5?'⚠️ Kam qoldi — bor-yo\'g\'i '+p.stock+' dona qoldi':'✅ Sotuvda bor — '+p.stock+' dona'}</div>
@@ -383,21 +419,21 @@ function product(id){
  <div class="opt"><b>${p.olab}:</b><div class="selrow">${p.opts.map(o=>p.out.includes(o)?`<button class="sel out">${o}<span class="os">tugagan</span></button>`:`<button class="sel ${selOpt[p.id]===o?'on':''}" onclick="selOpt[${p.id}]='${o}';render()">${o}</button>`).join('')}</div></div>
  ${p.cat==='poyabzal'?`<div class="opt"><b>📏 O'lcham jadvali (sm):</b><table class="sztable"><tr><th>40</th><th>41</th><th>42</th><th>43</th><th>44</th><th>45</th></tr><tr><td>25.5</td><td>26</td><td>26.5</td><td>27.5</td><td>28</td><td>28.5</td></tr></table></div>`:''}
  <div class="opt"><b>Miqdor:</b><div class="qty"><button onclick="selQty=Math.max(1,selQty-1);render()">−</button><b>${selQty}</b><button onclick="selQty=Math.min(${p.stock},selQty+1);render()">+</button><span style="color:#8e8e93;font-size:12.5px">${p.stock} dona bor</span></div></div>
- <div class="infocard"><b class="t">🚚 Yetkazib berish</b>
- <div class="row"><span>🏠</span><span><b>Kuryer</b> — ertaga, <b>${dateStr(1)}</b>, Toshkent bo'ylab (300 mingdan oshsa bepul)</span></div>
- <div class="row"><span>📦</span><span><b>Olib ketish punkti</b> — ${dateStr(2)} dan, bepul</span></div>
- <div class="row"><span>↩️</span><span>To'g'ri kelmasa 14 kun ichida qaytarish mumkin</span></div></div>
- <div class="infocard"><b class="t">🏪 Sotuvchi</b>
+ <div class="infocard"><b class="t">${ico('truck')} Yetkazib berish</b>
+ <div class="row"><span style="color:var(--p)">${ico('home','sm')}</span><span><b>Kuryer</b> — ertaga, <b>${dateStr(1)}</b>, Toshkent bo'ylab (300 mingdan oshsa bepul)</span></div>
+ <div class="row"><span style="color:var(--p)">${ico('box','sm')}</span><span><b>Olib ketish punkti</b> — ${dateStr(2)} dan, bepul</span></div>
+ <div class="row"><span style="color:var(--p)">${ico('ret','sm')}</span><span>To'g'ri kelmasa 14 kun ichida qaytarish mumkin</span></div></div>
+ <div class="infocard"><b class="t">${ico('store')} Sotuvchi</b>
  <div class="seller"><div class="sava">A</div><div><b>Azura Market do'koni</b><div style="color:#8e8e93;font-size:12.5px">★ 4.8 • 1 200+ savdo • Javob vaqti: ~15 daqiqa</div></div></div>
  <p style="margin-top:8px;color:#666">Savol bo'lsa botga yozing — o'zimiz javob beramiz, bot emas, odam qaraydi 💬</p></div>
- <div class="infocard"><b class="t">⭐ Sharhlar (${p.rev})</b>
+ <div class="infocard"><b class="t">${icoF('star')} Sharhlar (${p.rev})</b>
  <div style="display:flex;gap:16px;align-items:center;margin-bottom:6px"><div style="font-size:30px;font-weight:800">${p.rate}</div><div style="flex:1">${[5,4,3,2,1].map((s,i)=>`<div class="rbar"><span>${s}★</span><div class="tr"><div class="fl" style="width:${dist[i]}%"></div></div><span>${dist[i]}%</span></div>`).join('')}</div></div>
  ${p.reviews.map(r=>`<div class="rev"><div class="rh"><span class="rn">${r.n}</span><span class="rd">${r.d}</span></div><div style="color:#ff9500;font-size:12.5px">${starsHTML(r.s)} ${r.v?'<span class="verified">✓ Sotib olgan</span>':''}</div><div class="rt">${r.t}</div></div>`).join('')}
  </div>
  ${similar.length?`<div class="sec" style="padding-left:0"><b>O'xshash tovarlar</b></div><div class="hscroll" style="padding-left:0;padding-right:0">${similar.map(card).join('')}</div>`:''}
  <div style="height:64px"></div>
  </div>
- <div class="buybar"><button class="hbtn" onclick="toggleFav(${p.id})">${S.favs.includes(p.id)?'❤️':'🤍'}</button>
+ <div class="buybar"><button class="hbtn" onclick="toggleFav(${p.id})">${heartIco(S.favs.includes(p.id),true)}</button>
  <div class="bp"><span class="price">${fmt(p.price*selQty)}</span><br><small>${selQty} dona • ${p.olab.toLowerCase()}: ${selOpt[p.id]}</small></div>
  <button class="add" onclick="addCart(${p.id})">${inCart?'✓ Yangilash':'Savatga'}</button>
  <button class="now" onclick="buyNow(${p.id})">Hoziroq olish</button></div>`+nav('');
@@ -409,7 +445,7 @@ function buyNow(id){const p=byId(id);S.cart[id]={id,qty:selQty,opt:selOpt[id]||p
 function delFee(sum){return sum>=300000?0:25000;}
 function cartPage(){
  const items=Object.values(S.cart);
- if(!items.length)return `<div class="page"><div class="ptitle">🛒 Savat</div><div class="empty"><div class="em">🛒</div><b>Savat hozircha bo'sh</b>Yangi tovarlar kelgan, bir ko'rib chiqing</div><button class="cta" onclick="go('#/catalog')">Katalogga o'tish</button></div>`+nav('cart');
+ if(!items.length)return `<div class="page"><div class="ptitle">Savat</div><div class="empty"><div class="em" style="color:#c9c9d1">${ico('cart','xl')}</div><b>Savat hozircha bo'sh</b>Yangi tovarlar kelgan, bir ko'rib chiqing</div><button class="cta" onclick="go('#/catalog')">Katalogga o'tish</button></div>`+nav('cart');
  const sum=goodsSum(),pd=promoDisc(),del=delFee(sum-pd),need=Math.max(0,300000-(sum-pd)),pct=Math.min(100,Math.round((sum-pd)/300000*100));
  return `<div class="page"><div class="ptitle">🛒 Savat</div>
  <div class="prog">${need>0?`Bepul yetkazishgacha yana <b>${fmt(need)}</b> qoldi`:`🎉 Yetkazish sizga <b>bepul</b> bo'ladi`}<div class="tr"><div class="fl" style="width:${pct}%"></div></div></div>
@@ -434,19 +470,19 @@ function checkout(){
  const del=method==='point'?0:delFee(sum-pd);
  const eta=method==='point'?dateStr(2):dateStr(1);
  const u=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
- return `<button class="back" onclick="go('#/cart')">← Savatga</button><div class="page" style="padding-top:4px"><div class="ptitle">📋 Buyurtma berish</div>
+ return `<button class="back" onclick="go('#/cart')">← Savatga</button><div class="page" style="padding-top:4px"><div class="ptitle">Buyurtma berish</div>
  <div class="fld"><label>Ismingiz</label><input id="f-name" placeholder="Masalan: Azizbek" value="${u?((u.first_name||'')+' '+(u.last_name||'')).trim():''}"></div>
  <div class="fld"><label>Telefon raqam</label><input id="f-phone" placeholder="+998 90 123 45 67" inputmode="tel" value="${S.phone}"></div>
  <div class="fld"><label>Yetkazish usuli</label><div class="mrow">
- <div class="meth ${method==='courier'?'on':''}" onclick="method='courier';render()"><b>🏠 Kuryer</b><small>Manzilga olib boramiz — ${dateStr(1)} yetadi</small></div>
- <div class="meth ${method==='point'?'on':''}" onclick="method='point';render()"><b>📦 Punkt dan olish</b><small>O'zingiz olib ketasiz — bepul, ${dateStr(2)} dan tayyor</small></div></div></div>
+ <div class="meth ${method==='courier'?'on':''}" onclick="method='courier';render()"><b>${ico('home','sm')} Kuryer</b><small>Manzilga olib boramiz — ${dateStr(1)} yetadi</small></div>
+ <div class="meth ${method==='point'?'on':''}" onclick="method='point';render()"><b>${ico('box','sm')} Punkt dan olish</b><small>O'zingiz olib ketasiz — bepul, ${dateStr(2)} dan tayyor</small></div></div></div>
  ${method==='courier'?`<div class="fld"><label>Manzil</label><input id="f-addr" placeholder="Ko'cha, uy, mo'ljal" value="${S.addr}"></div>`:
  `<div class="fld"><label>Qaysi punkt?</label><select id="f-point">${POINTS.map((pt,i)=>`<option value="${i}" ${pointIdx===i?'selected':''}>${pt}</option>`).join('')}</select></div>`}
  <div class="fld"><label>Izoh (ixtiyoriy)</label><input id="f-note" placeholder="Masalan: ishdan keyin, 18:00 dan so'ng qo'ng'iroq qiling"></div>
  <div class="fld"><label>To'lov usuli</label><div class="payrow">
- <div class="pay ${pay==='click'?'on':''}" onclick="pay='click';render()"><div>💳</div>Click<small>Havola botdan keladi</small></div>
- <div class="pay ${pay==='payme'?'on':''}" onclick="pay='payme';render()"><div>🟢</div>Payme<small>Havola botdan keladi</small></div>
- <div class="pay ${pay==='cash'?'on':''}" onclick="pay='cash';render()"><div>💵</div>Naqd<small>Olgan paytda</small></div></div></div>
+ <div class="pay ${pay==='click'?'on':''}" onclick="pay='click';render()"><div class="plogo" style="color:#0094e8">click</div>Click<small>Havola botdan keladi</small></div>
+ <div class="pay ${pay==='payme'?'on':''}" onclick="pay='payme';render()"><div class="plogo" style="color:#00c853">payme</div>Payme<small>Havola botdan keladi</small></div>
+ <div class="pay ${pay==='cash'?'on':''}" onclick="pay='cash';render()"><div class="plogo" style="color:#16161a">naqd</div>Naqd<small>Olgan paytda</small></div></div></div>
  <div class="sum"><div><span>Tovarlar (${cartCount()} ta)</span><span>${fmt(sum)}</span></div>
  ${pd?`<div class="discrow"><span>Promokod ${S.promo}</span><span>−${fmt(pd)}</span></div>`:''}
  <div><span>Yetkazish (${method==='point'?'punkt':'kuryer'}, ${eta})</span><span>${del?fmt(del):'Bepul 🎉'}</span></div>
@@ -474,13 +510,13 @@ function placeOrder(){
 }
 function donePage(){
  const o=S.orders[0];
- return `<div class="ok"><div class="em">✅</div><h2>Rahmat, ${o?o.name.split(' ')[0]:'buyurtmangiz'} yetib keldi!</h2>
+ return `<div class="ok"><div class="em" style="color:var(--gr)">${ico('check','xl')}</div><h2>Rahmat, ${o?o.name.split(' ')[0]:'buyurtmangiz'} yetib keldi!</h2>
  <p>Buyurtma raqamingiz: <b>${o?o.no:''}</b><br>Operator qo'ng'iroq qiladi — manzilni aniqlashtirib, <b>${o?o.eta:''}</b> yuborib yuboramiz.<br>Holatini «Buyurtma» bo'limidan kuzatib boring.</p>
- <button class="cta" style="max-width:300px" onclick="go('#/orders')">📦 Buyurtmalarim</button>
- <button class="cta" style="max-width:300px;background:#16161a" onclick="go('#/')">🏠 Bosh sahifaga</button></div>`+nav('');
+ <button class="cta" style="max-width:300px" onclick="go('#/orders')">Buyurtmalarim</button>
+ <button class="cta" style="max-width:300px;background:#16161a" onclick="go('#/')">Bosh sahifaga</button></div>`+nav('');
 }
 function ordersPage(){
- if(!S.orders.length)return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div><div class="empty"><div class="em">📦</div><b>Hozircha buyurtma yo'q</b>Birinchi buyurtmangizga yetkazish bizdan sovg'a</div><button class="cta" onclick="go('#/')">Xaridni boshlash</button></div>`+nav('orders');
+ if(!S.orders.length)return `<div class="page"><div class="ptitle">Buyurtmalarim</div><div class="empty"><div class="em" style="color:#c9c9d1">${ico('box','xl')}</div><b>Hozircha buyurtma yo'q</b>Birinchi buyurtmangizga yetkazish bizdan sovg'a</div><button class="cta" onclick="go('#/')">Xaridni boshlash</button></div>`+nav('orders');
  return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div>${S.orders.map((o,oi)=>`
  <div class="ord"><div class="oh"><b>№ ${o.no}</b><span>${o.date}</span>${o.status===99?'<span class="stbadge cx">Bekor qilingan</span>':`<span class="stbadge">${STEPS[Math.min(o.status+1,4)]==='Topshirildi'?'Yetkazildi':STEPS[o.status]}</span>`}</div>
  ${o.status!==99?`<div class="tl">${STEPS.map((s,i)=>`<div class="st ${i<=o.status+1?'done':''}">${s}</div>`).join('')}</div>`:''}
@@ -488,41 +524,41 @@ function ordersPage(){
  <div class="oi">${o.items.map(i=>`${i.name} — ${i.opt} ×${i.qty}`).join('<br>')}</div>
  <div class="ot">${fmt(o.total)} • ${o.pay}</div>
  <div class="om">${o.method}: ${o.addr}<br>Kutilayotgan sana: ${o.eta}${o.note?'<br>Izoh: '+o.note:''}</div>
- <div class="obtns"><button onclick="toast('Yordam: botga yozing, operator javob beradi 💬')">💬 Yordam</button>
+ <div class="obtns"><button onclick="toast('Yordam: botga yozing, operator javob beradi 💬')">${ico('chat','sm')} Yordam</button>
  ${o.status===0&&o.status!==99?`<button class="cancel" onclick="cancelOrder(${oi})">Bekor qilish</button>`:''}</div></div>`).join('')}</div>`+nav('orders');
 }
 function cancelOrder(i){S.orders[i].status=99;save();toast('Buyurtma bekor qilindi');render();}
 function favsPage(){
  const arr=S.favs.map(byId).filter(Boolean);
- return `<button class="back" onclick="go('#/profile')">← Profilga</button><div class="page" style="padding-top:2px"><div class="ptitle">❤️ Sevimlilar</div>
- ${arr.length?`<div class="grid" style="padding:0">${arr.map(card).join('')}</div>`:`<div class="empty"><div class="em">🤍</div><b>Hozircha bo'sh</b>Tovar kartasidagi yurakchani bossangiz, shu yerda chiqadi</div>`}</div>`+nav('profile');
+ return `<button class="back" onclick="go('#/profile')">← Profilga</button><div class="page" style="padding-top:2px"><div class="ptitle">Sevimlilar</div>
+ ${arr.length?`<div class="grid" style="padding:0">${arr.map(card).join('')}</div>`:`<div class="empty"><div class="em" style="color:#c9c9d1">${ico('heart','xl')}</div><b>Hozircha bo'sh</b>Tovar kartasidagi yurakchani bossangiz, shu yerda chiqadi</div>`}</div>`+nav('profile');
 }
 function infoPage(){
- return `<button class="back" onclick="go('#/profile')">← Profilga</button><div class="page" style="padding-top:2px"><div class="ptitle">ℹ️ Yetkazish va qaytarish</div>
- <div class="infocard" style="margin-top:0"><b class="t">🚚 Yetkazib berish</b>
+ return `<button class="back" onclick="go('#/profile')">← Profilga</button><div class="page" style="padding-top:2px"><div class="ptitle">Yetkazish va qaytarish</div>
+ <div class="infocard" style="margin-top:0"><b class="t">${ico('truck')} Yetkazib berish</b>
  <p style="color:#444">Toshkent bo'ylab kuryer — 1 kun, 25 000 so'm. Buyurtma 300 000 so'mdan oshsa — bepul.<br>Olib ketish punktlari: ish vaqti 09:00–21:00, yetkazish bepul, 2 kunda tayyor bo'ladi.<br>Viloyatlarga operator bilan kelishiladi.</p></div>
- <div class="infocard"><b class="t">↩️ Qaytarish</b>
+ <div class="infocard"><b class="t">${ico('ret')} Qaytarish</b>
  <p style="color:#444">Tovar to'g'ri kelmasa yoki nuqsoni bo'lsa, 14 kun ichida qaytarish mumkin. Pul 3 ish kunida qaytadi. Buning uchun botga yozing — operator yo'l ko'rsatadi.</p></div>
- <div class="infocard"><b class="t">💳 To'lov</b>
+ <div class="infocard"><b class="t">${ico('cash')} To'lov</b>
  <p style="color:#444">Click va Payme — tasdiqdan keyin bot to'lov havolasini yuboradi. Naqd — tovarni olgan paytda kuryerga yoki punktda.</p></div></div>`+nav('profile');
 }
 function profile(){
  const u=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
  const nm=u?((u.first_name||'')+' '+(u.last_name||'')):S.orders[0]?S.orders[0].name:'Mehmon';
- return `<div class="page"><div class="ptitle">👤 Profil</div>
- <div class="prof"><div class="pava">${(nm||'M').trim()[0].toUpperCase()}</div><div><b style="font-size:17px">${nm}</b><div style="color:#8e8e93;font-size:13px;margin-top:2px">${u&&u.username?'@'+u.username+' • ':''}${S.phone||''}</div><div style="color:#8e8e93;font-size:12.5px">Buyurtmalar: ${S.orders.length} ta • Kanal obunachisi ⭐</div></div></div>
+ return `<div class="page"><div class="ptitle">Profil</div>
+ <div class="prof"><div class="pava">${(nm||'M').trim()[0].toUpperCase()}</div><div><b style="font-size:17px">${nm}</b><div style="color:#8e8e93;font-size:13px;margin-top:2px">${u&&u.username?'@'+u.username+' • ':''}${S.phone||''}</div><div style="color:#8e8e93;font-size:12.5px">Buyurtmalar: ${S.orders.length} ta • Kanal obunachisi</div></div></div>
  <div class="fld" style="margin-top:14px"><label>Telefonim (buyurtmada avtomatik chiqadi)</label><input id="my-phone" placeholder="+998 ..." value="${S.phone}" onchange="S.phone=this.value;save();toast('Saqlandi ✓')"></div>
- ${S.addr?`<div class="infocard" style="margin-top:0"><b class="t">📍 Saqlangan manzil</b><p style="color:#444">${S.addr}</p></div>`:''}
+ ${S.addr?`<div class="infocard" style="margin-top:0"><b class="t">${ico('pin')} Saqlangan manzil</b><p style="color:#444">${S.addr}</p></div>`:''}
  <div class="menu">
- <button onclick="go('#/orders')"><span>📦 Buyurtmalarim</span><span>${S.orders.length||''} ›</span></button>
- <button onclick="go('#/cart')"><span>🛒 Savatim</span><span>${cartCount()||''} ›</span></button>
- <button onclick="go('#/favs')"><span>❤️ Sevimlilar</span><span>${S.favs.length||''} ›</span></button>
- <button onclick="toast('Promokodingiz: AZURA10 — savatda yozing, 10% chegirma 🎁')"><span>🎁 Promokodlarim</span><span>›</span></button>
- <button onclick="go('#/info')"><span>🚚 Yetkazish va qaytarish</span><span>›</span></button>
- <button onclick="window.open('https://t.me/azura_market_bot','_blank')"><span>📣 Kanalimiz va bot</span><span>›</span></button>
- <button onclick="toast('Yordam: @azura_market_bot ga yozing 💬')"><span>💬 Yordam / Aloqa</span><span>›</span></button>
+ <button onclick="go('#/orders')"><span class="mi-t">${ico('box')} Buyurtmalarim</span><span>${S.orders.length||''} ›</span></button>
+ <button onclick="go('#/cart')"><span class="mi-t">${ico('cart')} Savatim</span><span>${cartCount()||''} ›</span></button>
+ <button onclick="go('#/favs')"><span class="mi-t">${ico('heart')} Sevimlilar</span><span>${S.favs.length||''} ›</span></button>
+ <button onclick="toast('Promokodingiz: AZURA10 — savatda yozing, 10% chegirma 🎁')"><span class="mi-t">${ico('gift')} Promokodlarim</span><span>›</span></button>
+ <button onclick="go('#/info')"><span class="mi-t">${ico('truck')} Yetkazish va qaytarish</span><span>›</span></button>
+ <button onclick="window.open('https://t.me/azura_market_bot','_blank')"><span class="mi-t">${ico('share')} Kanalimiz va bot</span><span>›</span></button>
+ <button onclick="toast('Yordam: @azura_market_bot ga yozing 💬')"><span class="mi-t">${ico('chat')} Yordam / Aloqa</span><span>›</span></button>
  </div>
- <p style="text-align:center;color:#aeaeb2;font-size:12px;margin-top:18px">Azura Market — Telegram do'koni, v3.0</p></div>`+nav('profile');
+ <p style="text-align:center;color:#aeaeb2;font-size:12px;margin-top:18px">Azura Market — Telegram do'koni, v5.0</p></div>`+nav('profile');
 }
 function render(){
  const h=location.hash||'#/';
@@ -557,7 +593,7 @@ render();
 let heroI=0;
 function heroGo(i){heroI=i;const t=document.getElementById('htrack');if(t)t.style.transform='translateX(-'+(i*100)+'%)';document.querySelectorAll('.hdot').forEach((d,j)=>d.classList.toggle('on',j===i));}
 setInterval(()=>{if(document.getElementById('htrack'))heroGo((heroI+1)%3);},4200);
-setInterval(()=>{const e=document.getElementById('cd');if(!e)return;const now=new Date();const end=new Date(now);end.setDate(now.getDate()+((7-now.getDay())%7||7));end.setHours(23,59,59,999);let s=Math.max(0,Math.floor((end-now)/1000));const d=Math.floor(s/86400);s%=86400;const pad=n=>String(n).padStart(2,'0');e.textContent='⏱ Tugashiga: '+(d>0?d+' kun ':'')+pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60);},1000);
+setInterval(()=>{const e=document.getElementById('cd');if(!e)return;const now=new Date();const end=new Date(now);end.setDate(now.getDate()+((7-now.getDay())%7||7));end.setHours(23,59,59,999);let s=Math.max(0,Math.floor((end-now)/1000));const d=Math.floor(s/86400);s%=86400;const pad=n=>String(n).padStart(2,'0');e.textContent='Tugashiga: '+(d>0?d+' kun ':'')+pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60);},1000);
 </script>
 </body>
 </html>
