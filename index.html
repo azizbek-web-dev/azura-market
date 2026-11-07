@@ -18,7 +18,10 @@ input,select,textarea{font-family:inherit;font-size:15px}
 .logo{font-size:21px;font-weight:800;letter-spacing:-.5px;margin-top:2px}
 .logo span{color:var(--y)}
 .search{margin-top:11px;background:#fff;border-radius:12px;padding:11px 13px;color:#8e8e93;font-size:14px;display:flex;gap:8px;align-items:center}
-.search input{border:none;outline:none;flex:1;color:#16161a;background:none;font-size:14px}
+.search input{border:none;outline:none;flex:1;min-width:0;height:26px;color:#16161a;background:none;font-size:16px;-webkit-appearance:none;appearance:none;border-radius:0;box-shadow:none;caret-color:var(--p)}
+.search input:focus{outline:none;box-shadow:none}
+input::selection{background:rgba(112,0,255,.16)}
+body.kb .tabbar{display:none}
 .bell{position:relative;font-size:19px}
 .bell i{position:absolute;top:-3px;right:-4px;width:9px;height:9px;background:var(--red);border-radius:50%;border:2px solid #8b3dff}
 .popq{display:flex;gap:7px;padding:10px 14px 0;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -392,6 +395,8 @@ function filtered(){
  else arr.sort((a,b)=>b.sold-a.sold);
  return arr;
 }
+document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='q')document.body.classList.add('kb');});
+document.addEventListener('focusout',function(e){if(e.target&&e.target.id==='q')document.body.classList.remove('kb');});
 function onSearch(v){query=v;const g=document.getElementById('grid');if(g){g.innerHTML=filtered().map(card).join('')||emptyGrid();}}
 function emptyGrid(){return `<div class="empty" style="grid-column:1/-1"><div class="em" style="color:#c9c9d1">${ico('search','xl')}</div><b>Hech narsa topilmadi</b>Yozuvni tekshirib, qayta qidiring</div>`;}
 function setCat(k){filterCat=k;render();}
