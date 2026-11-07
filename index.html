@@ -236,6 +236,9 @@ body{overscroll-behavior:none}
 *{scrollbar-width:none}
 *::-webkit-scrollbar{display:none}
 .header{padding-top:calc(12px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
+.fs-logo{position:fixed;top:var(--fs-top,0px);left:0;right:0;height:var(--fs-h,0px);display:none;align-items:center;justify-content:center;pointer-events:none;z-index:200;overflow:hidden}
+html[data-tg-fs="1"] .fs-logo{display:flex}
+.fs-logo img{height:35px;width:auto;max-height:84%}
 .tg .back{display:none}
 .nav{bottom:10px;width:calc(100% - 20px);border-radius:24px;border:1px solid #ececf1;box-shadow:0 12px 32px rgba(23,0,60,.16);padding:8px 0 9px}
 body{padding-bottom:104px}
@@ -271,6 +274,7 @@ body{padding-bottom:104px}
 </style>
 </head>
 <body>
+<div class="fs-logo"><img src="assets/logo-band.png" alt="Azura"></div>
 <div id="app"></div>
 <div class="toast" id="toast"></div>
 <script>
@@ -296,6 +300,7 @@ const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
 if(tg){
  try{tg.ready();}catch(e){}
  try{tg.expand();}catch(e){}
+ try{tg.requestFullscreen&&tg.requestFullscreen();}catch(e){}
  try{tg.disableVerticalSwipes&&tg.disableVerticalSwipes();}catch(e){}
  try{tg.setHeaderColor&&tg.setHeaderColor('#ffffff');}catch(e){}
  try{tg.setBackgroundColor&&tg.setBackgroundColor('#f3f3f7');}catch(e){}
