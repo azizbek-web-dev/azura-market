@@ -245,6 +245,13 @@ body{padding-bottom:104px}
 .add:active,.cta:active{transform:scale(.985)}
 .chip2,.sel,.cat{transition:transform .12s ease}
 .hero{height:180px}
+.header{background:#fff;color:#16161a;box-shadow:0 4px 18px rgba(23,0,60,.06);border-radius:0 0 18px 18px;padding:10px 14px 12px;padding-top:calc(10px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
+.header .logo{font-size:17px;color:var(--p)}
+.header .logo span{color:#f5a623}
+.header .top{color:#8e8e93}
+.header .search{background:#f2f2f5;margin-top:9px;padding:10px 12px;border-radius:12px}
+.hstrip{display:flex;justify-content:space-between;padding:10px 16px 0;font-size:12px;color:#8e8e93}
+.hstrip .ic{color:var(--p)}
 .ic{width:22px;height:22px;vertical-align:-4px}
 .ic.sm{width:15px;height:15px;vertical-align:-2px}
 .ic.xl{width:58px;height:58px;stroke-width:1.2}
@@ -289,7 +296,7 @@ if(tg){
  try{tg.expand();}catch(e){}
  try{tg.requestFullscreen&&tg.requestFullscreen();}catch(e){}
  try{tg.disableVerticalSwipes&&tg.disableVerticalSwipes();}catch(e){}
- try{tg.setHeaderColor&&tg.setHeaderColor('#7000FF');}catch(e){}
+ try{tg.setHeaderColor&&tg.setHeaderColor('#ffffff');}catch(e){}
  try{tg.setBackgroundColor&&tg.setBackgroundColor('#f3f3f7');}catch(e){}
  try{tg.setBottomBarColor&&tg.setBottomBarColor('#ffffff');}catch(e){}
  document.body.classList.add('tg');
@@ -342,8 +349,7 @@ function nav(active){
 }
 function header(){
  return `<div class="header"><div class="top"><div class="logo" style="margin:0">AZURA<span>•</span>MARKET</div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;opacity:.95">${ico('pin','sm')} Toshkent</span></div>
- <div class="search">${ico('search')} <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div>
- <div style="display:flex;justify-content:space-between;margin-top:11px;font-size:12px;opacity:.96"><span style="display:inline-flex;align-items:center;gap:5px">${ico('truck','sm')} Toshkentga yetkazish: <b>ertaga</b></span><span style="display:inline-flex;align-items:center;gap:4px"><span style="color:#ffe600;display:inline-flex">${icoF('star','sm')}</span> 4.8 • 1 200+ xaridor</span></div></div>`;
+ <div class="search">${ico('search')} <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div></div>`;
 }
 function starsHTML(r){const f=Math.round(r);return "★★★★★".slice(0,f)+"☆☆☆☆☆".slice(0,5-f);}
 function card(p){
@@ -382,7 +388,7 @@ function home(){
  const yang=[4,10,7,9].map(byId);
  const hafta=[...PRODUCTS].filter(p=>p.old).sort((a,b)=>discPct(b)-discPct(a)).slice(0,4);
  const recent=S.recent.map(byId).filter(Boolean);
- return header()+`
+ return header()+`<div class="hstrip"><span style="display:inline-flex;align-items:center;gap:5px">${ico('truck','sm')} Toshkentga yetkazish: <b>&nbsp;ertaga</b></span><span style="display:inline-flex;align-items:center;gap:4px"><span style="color:#f59e0b;display:inline-flex">${icoF('star','sm')}</span> 4.8 • 1 200+ xaridor</span></div>`+`
  ${query?'':`<div class="popq"><span>Ommabop:</span>${["Krossovka","Smart soat","Atir","Kurtka","Ryukzak"].map(w=>`<button onclick="setQuery('${w}')">${w}</button>`).join('')}</div>`}
  <div class="hero"><div class="htrack" id="htrack">
  <div class="hslide" onclick="setCat('poyabzal');go('#/catalog')"><img src="${G}banner1.jpg" alt=""><div class="hoverlay"><b>Krossovkalar 329 000 so'mdan</b><small>Yangi kolleksiya keldi — o'lchamlar hali bor</small><span class="go">Xarid qilish →</span></div></div>
