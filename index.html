@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Azura Market — Telegram do'koni</title>
+<title>Azura — Student Market</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+<meta name="theme-color" content="#ffffff">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
@@ -246,7 +248,7 @@ body{padding-bottom:104px}
 .chip2,.sel,.cat{transition:transform .12s ease}
 .hero{height:180px}
 .header{background:#fff;color:#16161a;box-shadow:0 4px 18px rgba(23,0,60,.06);border-radius:0 0 18px 18px;padding:10px 14px 12px;padding-top:calc(10px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
-.header .logo{font-size:17px;color:var(--p)}
+.header .logo{font-size:17.5px;color:#16161a;letter-spacing:-.3px}
 .header .logo span{color:#f5a623}
 .header .top{color:#8e8e93}
 .header .search{background:#f2f2f5;margin-top:9px;padding:10px 12px;border-radius:12px}
@@ -348,7 +350,7 @@ function nav(active){
  <button class="${active==='profile'?'on':''}" onclick="go('#/profile')"><div>${ico('user')}</div>Profil</button></div>`;
 }
 function header(){
- return `<div class="header"><div class="top"><div class="logo" style="margin:0">AZURA<span>•</span>MARKET</div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;opacity:.95">${ico('pin','sm')} Toshkent</span></div>
+ return `<div class="header"><div class="top"><div style="display:flex;align-items:center;gap:8px"><span style="width:31px;height:31px;background:#16161a;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px"><path d="M12 4L2.5 8.5 12 13l9.5-4.5L12 4z"/><path d="M6.5 10.8V16c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-5.2"/><path d="M21.5 8.5V15"/></svg></span><span class="logo" style="margin:0">AZURA</span></div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;opacity:.95">${ico('pin','sm')} Toshkent</span></div>
  <div class="search">${ico('search')} <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div></div>`;
 }
 function starsHTML(r){const f=Math.round(r);return "★★★★★".slice(0,f)+"☆☆☆☆☆".slice(0,5-f);}
@@ -453,7 +455,7 @@ function product(id){
  <div class="row"><span style="color:var(--p)">${ico('box','sm')}</span><span><b>Olib ketish punkti</b> — ${dateStr(2)} dan, bepul</span></div>
  <div class="row"><span style="color:var(--p)">${ico('ret','sm')}</span><span>To'g'ri kelmasa 14 kun ichida qaytarish mumkin</span></div></div>
  <div class="infocard"><b class="t">${ico('store')} Sotuvchi</b>
- <div class="seller"><div class="sava">A</div><div><b>Azura Market do'koni</b><div style="color:#8e8e93;font-size:12.5px">★ 4.8 • 1 200+ savdo • Javob vaqti: ~15 daqiqa</div></div></div>
+ <div class="seller"><div class="sava" style="background:#16161a"><svg viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px"><path d="M12 4L2.5 8.5 12 13l9.5-4.5L12 4z"/><path d="M6.5 10.8V16c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-5.2"/><path d="M21.5 8.5V15"/></svg></div><div><b>Azura Market do'koni</b><div style="color:#8e8e93;font-size:12.5px">★ 4.8 • 1 200+ savdo • Javob vaqti: ~15 daqiqa</div></div></div>
  <p style="margin-top:8px;color:#666">Savol bo'lsa botga yozing — o'zimiz javob beramiz, bot emas, odam qaraydi 💬</p></div>
  <div class="infocard"><b class="t">${icoF('star')} Sharhlar (${p.rev})</b>
  <div style="display:flex;gap:16px;align-items:center;margin-bottom:6px"><div style="font-size:30px;font-weight:800">${p.rate}</div><div style="flex:1">${[5,4,3,2,1].map((s,i)=>`<div class="rbar"><span>${s}★</span><div class="tr"><div class="fl" style="width:${dist[i]}%"></div></div><span>${dist[i]}%</span></div>`).join('')}</div></div>
@@ -575,7 +577,7 @@ function profile(){
  const u=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
  const nm=u?((u.first_name||'')+' '+(u.last_name||'')):S.orders[0]?S.orders[0].name:'Mehmon';
  return `<div class="page"><div class="ptitle">Profil</div>
- <div class="prof"><div class="pava">${(nm||'M').trim()[0].toUpperCase()}</div><div><b style="font-size:17px">${nm}</b><div style="color:#8e8e93;font-size:13px;margin-top:2px">${u&&u.username?'@'+u.username+' • ':''}${S.phone||''}</div><div style="color:#8e8e93;font-size:12.5px">Buyurtmalar: ${S.orders.length} ta • Kanal obunachisi</div></div></div>
+ <div class="prof"><div class="pava" style="background:#16161a"><svg viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:29px;height:29px"><path d="M12 4L2.5 8.5 12 13l9.5-4.5L12 4z"/><path d="M6.5 10.8V16c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-5.2"/><path d="M21.5 8.5V15"/></svg></div><div><b style="font-size:17px">${nm}</b><div style="color:#8e8e93;font-size:13px;margin-top:2px">${u&&u.username?'@'+u.username+' • ':''}${S.phone||''}</div><div style="color:#8e8e93;font-size:12.5px">Buyurtmalar: ${S.orders.length} ta • Kanal obunachisi</div></div></div>
  <div class="fld" style="margin-top:14px"><label>Telefonim (buyurtmada avtomatik chiqadi)</label><input id="my-phone" placeholder="+998 ..." value="${S.phone}" onchange="S.phone=this.value;save();toast('Saqlandi ✓')"></div>
  ${S.addr?`<div class="infocard" style="margin-top:0"><b class="t">${ico('pin')} Saqlangan manzil</b><p style="color:#444">${S.addr}</p></div>`:''}
  <div class="menu">
