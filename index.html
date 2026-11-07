@@ -316,6 +316,8 @@ if(tg){
    document.documentElement.style.setProperty('--fs-top',lt+'px');
    document.documentElement.style.setProperty('--fs-h',lh+'px');
    document.documentElement.setAttribute('data-tg-fs',fs?'1':'0');
+   var sh=tg.viewportStableHeight||0, vh=tg.viewportHeight||0;
+   if(sh&&vh)document.body.classList.toggle('kb', vh<sh*0.8);
  }catch(e){}}
  syncFs();
  ['safeAreaChanged','contentSafeAreaChanged','fullscreenChanged','viewportChanged'].forEach(function(ev){try{tg.onEvent(ev,syncFs);}catch(e){}});
@@ -401,7 +403,10 @@ document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='q')d
 document.addEventListener('focusout',function(e){if(e.target&&e.target.id==='q')setTimeout(function(){if(!document.activeElement||document.activeElement.id!=='q')kbOff();},60);});
 if(window.visualViewport){var vvT;window.visualViewport.addEventListener('resize',function(){clearTimeout(vvT);vvT=setTimeout(function(){if(window.visualViewport.height<window.innerHeight*0.82){document.body.classList.add('kb');}else{kbOff();}},40);});}
 window.addEventListener('hashchange',kbOff);
-function onSearch(v){query=v;const g=document.getElementById('grid');if(g){g.innerHTML=filtered().map(card).join('')||emptyGrid();}}
+function onSearch(v){const was=!!query;query=v;const now=!!query;
+ if(was!==now){render();const q=document.getElementById('q');if(q){q.focus();const l=q.value.length;try{q.setSelectionRange(l,l);}catch(e){}}return;}
+ const g=document.getElementById('grid');if(g){const r=filtered();g.innerHTML=r.map(card).join('')||emptyGrid();const c=document.getElementById('rcount');if(c)c.textContent=r.length;}}
+function clearQuery(){query='';render();}
 function emptyGrid(){return `<div class="empty" style="grid-column:1/-1"><div class="em" style="color:#c9c9d1">${ico('search','xl')}</div><b>Hech narsa topilmadi</b>Yozuvni tekshirib, qayta qidiring</div>`;}
 function setCat(k){filterCat=k;render();}
 function toggleFav(id){const i=S.favs.indexOf(id);if(i>=0)S.favs.splice(i,1);else{S.favs.push(id);toast('Sevimlilarga qo\'shildi ❤️');}save();render();}
@@ -413,6 +418,9 @@ function home(){
  const yang=[4,10,7,9].map(byId);
  const hafta=[...PRODUCTS].filter(p=>p.old).sort((a,b)=>discPct(b)-discPct(a)).slice(0,4);
  const recent=S.recent.map(byId).filter(Boolean);
+ if(query){ const r=filtered();
+  return header()+`<div class="sec" style="padding-top:16px"><b>«${query}» — <span id="rcount">${r.length}</span> ta topildi</b><a onclick="clearQuery()">Tozalash ✕</a></div><div class="grid" id="grid">${r.map(card).join('')||emptyGrid()}</div>`+nav('home');
+ }
  return header()+``+`
  ${query?'':`<div class="popq"><span>Ommabop:</span>${["Krossovka","Smart soat","Atir","Kurtka","Ryukzak"].map(w=>`<button onclick="setQuery('${w}')">${w}</button>`).join('')}</div>`}
  <div class="hero"><div class="htrack" id="htrack">
