@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>MARKET•UZ — Telegram Mini App</title>
+<title>Azura Market — Telegram do'koni</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
-:root{--p:#7000FF;--pd:#5a00d1;--y:#ffe600;--bg:#f2f2f7;--red:#ff3b5c;--gr:#00a651}
-body{background:var(--bg);color:#16161a;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:78px}
-button{border:none;cursor:pointer;font-family:inherit}
+:root{--p:#7000FF;--pd:#5a00d1;--y:#ffe600;--bg:#f2f2f7;--red:#ff3b5c;--gr:#00a651;--or:#ff8a00}
+body{background:var(--bg);color:#16161a;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:80px}
+button{border:none;cursor:pointer;font-family:inherit;background:none}
 input,select,textarea{font-family:inherit;font-size:15px}
-/* header */
-.header{background:linear-gradient(135deg,var(--p),#9b4dff);padding:14px 14px 14px;color:#fff;border-radius:0 0 20px 20px;position:sticky;top:0;z-index:30}
+.header{background:linear-gradient(135deg,var(--p),#9b4dff);padding:14px;color:#fff;border-radius:0 0 20px 20px;position:sticky;top:0;z-index:30}
 .top{display:flex;justify-content:space-between;align-items:center;font-size:13px}
 .logo{font-size:21px;font-weight:800;letter-spacing:-.5px;margin-top:2px}
 .logo span{color:var(--y)}
 .search{margin-top:11px;background:#fff;border-radius:12px;padding:11px 13px;color:#8e8e93;font-size:14px;display:flex;gap:8px;align-items:center}
-.search input{border:none;outline:none;flex:1;color:#16161a;background:none}
+.search input{border:none;outline:none;flex:1;color:#16161a;background:none;font-size:14px}
 .bell{position:relative;font-size:19px}
 .bell i{position:absolute;top:-3px;right:-4px;width:9px;height:9px;background:var(--red);border-radius:50%;border:2px solid #8b3dff}
-/* banner */
+.popq{display:flex;gap:7px;padding:10px 14px 0;flex-wrap:wrap}
+.popq span{font-size:12px;color:#666;align-self:center}
+.popq button{background:#fff;border:1px solid #e4e4ea;padding:6px 11px;border-radius:16px;font-size:12.5px;color:#333}
 .banner{margin:14px;background:linear-gradient(120deg,var(--y),#ffb800);border-radius:16px;padding:16px}
-.banner b{font-size:20px;display:block}
-.banner small{font-size:12.5px;opacity:.75}
+.banner b{font-size:19px;display:block;line-height:1.3}
+.banner small{font-size:12.5px;opacity:.8}
 .banner .chip{display:inline-block;margin-top:9px;background:var(--p);color:#fff;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700}
-/* categories */
 .cats{display:flex;gap:4px;padding:2px 8px 4px;overflow-x:auto;scrollbar-width:none}
 .cats::-webkit-scrollbar{display:none}
 .cat{min-width:58px;text-align:center;font-size:10.5px;color:#333;cursor:pointer}
@@ -33,130 +33,208 @@ input,select,textarea{font-family:inherit;font-size:15px}
 .cat .ic img{width:100%;height:100%;object-fit:cover;display:block}
 .cat.on .ic{outline:2.5px solid var(--p)}
 .cat.on{color:var(--p);font-weight:700}
-/* sections & grid */
-.sec{display:flex;justify-content:space-between;align-items:center;padding:14px 14px 8px}
+.sec{display:flex;justify-content:space-between;align-items:center;padding:16px 14px 8px}
 .sec b{font-size:17px}.sec a{font-size:12.5px;color:var(--p);font-weight:600;cursor:pointer}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px}
+.hscroll{display:flex;gap:10px;padding:2px 12px 6px;overflow-x:auto;scrollbar-width:none}
+.hscroll::-webkit-scrollbar{display:none}
+.hscroll .card{min-width:158px;max-width:158px}
 .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer}
 .ph{height:138px;position:relative;overflow:hidden;background:#ececf1}
 .ph img{width:100%;height:100%;object-fit:cover;display:block}
-.badge{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:6px}
+.badge{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:6px;z-index:2}
 .badge.new{background:var(--gr)}
-.fav{position:absolute;top:4px;right:8px;font-size:19px;color:#c7c7cc;background:none}
-.fav.on{color:var(--red)}
+.fav{position:absolute;top:4px;right:8px;font-size:19px;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.45);z-index:2}
+.fav.on{color:var(--red);text-shadow:none}
 .info{padding:9px 10px 11px}
-.price{color:var(--p);font-weight:800;font-size:15px}
-.old{color:#aeaeb2;font-size:11.5px;text-decoration:line-through;margin-left:5px}
-.info .old{display:block;margin:2px 0 0}
-.pname{font-size:12.8px;color:#222;margin-top:4px;line-height:1.3;min-height:33px}
+.price{color:var(--p);font-weight:800;font-size:15px;white-space:nowrap}
+.old{color:#aeaeb2;font-size:11.5px;text-decoration:line-through;display:block;margin-top:1px}
+.inst{font-size:11px;color:#7a4d00;background:#fff6d8;border-radius:6px;padding:3px 6px;margin-top:5px;display:inline-block}
+.pname{font-size:12.8px;color:#222;margin-top:5px;line-height:1.3;min-height:33px}
 .rate{font-size:11px;color:#ff9500;margin-top:3px}
+.rate i{color:#aeaeb2;font-style:normal}
+.stockline{font-size:11px;margin-top:3px;color:var(--gr)}
+.stockline.low{color:var(--or);font-weight:700}
 .add{margin-top:8px;background:var(--p);color:#fff;text-align:center;padding:9px;border-radius:9px;font-size:12.5px;font-weight:700;width:100%}
 .added{background:#e9e2ff;color:var(--p)}
-/* bottom nav */
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;display:flex;justify-content:space-around;padding:9px 0 12px;border-top:1px solid #e8e8ec;z-index:40}
-.nav button{background:none;font-size:10.5px;color:#8e8e93;text-align:center;position:relative}
+.nav button{font-size:10.5px;color:#8e8e93;text-align:center;position:relative}
 .nav button div{font-size:20px;line-height:1.25}
 .nav button.on{color:var(--p);font-weight:700}
-.nav .cnt{position:absolute;top:-4px;right:6px;background:var(--red);color:#fff;font-size:10px;font-weight:700;min-width:17px;height:17px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px}
-/* page generic */
+.nav .cnt{position:absolute;top:-4px;right:4px;background:var(--red);color:#fff;font-size:10px;font-weight:700;min-width:17px;height:17px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px}
 .page{padding:14px}
 .ptitle{font-size:20px;font-weight:800;margin-bottom:12px}
-.back{background:none;font-size:15px;color:var(--p);font-weight:600;padding:12px 14px 0;display:block}
-/* product */
-.pbig{height:320px;position:relative;border-radius:0 0 22px 22px;overflow:hidden;background:#ececf1}
-.pbig img{width:100%;height:100%;object-fit:cover;display:block}
-.pbody{padding:16px}
-.pbody .price{font-size:23px}
-.pbody h2{font-size:19px;margin:8px 0 4px;line-height:1.3}
-.desc{font-size:14px;color:#555;line-height:1.55;margin-top:8px}
-.opt{margin-top:14px}
+.back{font-size:15px;color:var(--p);font-weight:600;padding:12px 14px 8px;display:block;text-align:left}
+/* galereya */
+.gal{position:relative;background:#ececf1;border-radius:0 0 22px 22px;overflow:hidden}
+.gal img.main{width:100%;height:330px;object-fit:cover;display:block}
+.gal .badge{font-size:12.5px;padding:5px 9px}
+.thumbs{display:flex;gap:8px;padding:10px 14px 0}
+.thumbs img{width:56px;height:56px;object-fit:cover;border-radius:10px;cursor:pointer;opacity:.65;border:2px solid transparent}
+.thumbs img.on{opacity:1;border-color:var(--p)}
+.gcount{position:absolute;bottom:10px;right:12px;background:rgba(0,0,0,.55);color:#fff;font-size:11.5px;padding:3px 9px;border-radius:12px}
+.pbody{padding:14px 16px}
+.pprice{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.pprice .price{font-size:23px}
+.pprice .old{display:inline;font-size:14.5px;margin:0}
+.disc{background:var(--red);color:#fff;font-weight:700;font-size:12px;padding:3px 8px;border-radius:7px}
+.instbox{background:#f4efff;border:1px solid #e0d1ff;border-radius:12px;padding:11px 13px;margin-top:12px;font-size:13.5px;line-height:1.5}
+.instbox b{color:var(--p)}
+.pbody h2{font-size:18.5px;margin:10px 0 4px;line-height:1.35}
+.desc{font-size:14px;color:#444;line-height:1.6;margin-top:9px;white-space:pre-line}
+.opt{margin-top:15px}
 .opt b{font-size:13.5px;display:block;margin-bottom:8px}
 .selrow{display:flex;gap:8px;flex-wrap:wrap}
-.sel{padding:8px 14px;border:1.5px solid #dddde3;border-radius:10px;background:#fff;font-size:13.5px;font-weight:600}
+.sel{padding:8px 14px;border:1.5px solid #dddde3;border-radius:10px;background:#fff;font-size:13.5px;font-weight:600;position:relative}
 .sel.on{border-color:var(--p);color:var(--p);background:#f4efff}
+.sel.out{opacity:.45;text-decoration:line-through;cursor:not-allowed}
+.sel .os{position:absolute;top:-7px;right:-5px;background:#8e8e93;color:#fff;font-size:8.5px;padding:1px 5px;border-radius:7px;text-decoration:none}
 .qty{display:flex;align-items:center;gap:14px}
 .qty button{width:36px;height:36px;border-radius:50%;background:#eeeef2;font-size:19px;font-weight:700}
 .qty b{font-size:17px}
-.buyrow{display:flex;gap:10px;margin-top:20px}
-.buyrow .add{flex:1;padding:14px;font-size:15px;border-radius:12px;margin:0}
-.buyrow .now{flex:1;background:#16161a;color:#fff;padding:14px;font-size:15px;border-radius:12px;font-weight:700}
-.feat{display:flex;gap:8px;margin-top:16px}
-.feat div{flex:1;background:#fff;border-radius:12px;padding:10px;font-size:11.5px;text-align:center;color:#444;line-height:1.4}
-.feat div b{display:block;font-size:16px}
-/* cart */
+.infocard{background:#fff;border-radius:14px;padding:13px 14px;margin-top:14px;font-size:13.5px;line-height:1.55}
+.infocard b.t{display:block;font-size:14px;margin-bottom:6px}
+.infocard .row{display:flex;gap:9px;padding:5px 0;color:#444}
+.infocard .row span:first-child{font-size:16px}
+.seller{display:flex;gap:11px;align-items:center}
+.sava{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--p),#9b4dff);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;flex-shrink:0}
+.rev{border-top:1px solid #f0f0f3;padding:11px 0}
+.rev:first-of-type{border-top:none}
+.rev .rh{display:flex;justify-content:space-between;font-size:13px}
+.rev .rn{font-weight:700}
+.rev .rd{color:#aeaeb2;font-size:12px}
+.rev .rt{font-size:13.5px;color:#333;line-height:1.5;margin-top:4px}
+.verified{color:var(--gr);font-size:11px;font-weight:700}
+.rbar{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;margin:3px 0}
+.rbar .tr{flex:1;height:7px;background:#eeeef2;border-radius:4px;overflow:hidden}
+.rbar .fl{height:100%;background:#ff9500}
+.buybar{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #eee;padding:10px 12px;display:flex;gap:9px;align-items:center;z-index:35;box-shadow:0 -4px 18px rgba(0,0,0,.06)}
+.buybar .bp{line-height:1.15}
+.buybar .bp .price{font-size:16.5px}
+.buybar .bp small{color:#8e8e93;font-size:11px}
+.buybar .add{flex:1;margin:0;padding:13px;font-size:14.5px;border-radius:11px}
+.buybar .now{flex:1;background:#16161a;color:#fff;padding:13px;font-size:14.5px;border-radius:11px;font-weight:700}
+.hbtn{width:46px;height:46px;border-radius:11px;background:#f2f2f5;font-size:20px;flex-shrink:0}
+/* savat */
 .crow{background:#fff;border-radius:14px;padding:11px;display:flex;gap:11px;margin-bottom:10px;align-items:center}
 .cph{width:66px;height:66px;border-radius:11px;overflow:hidden;flex-shrink:0;background:#ececf1}
 .cph img{width:100%;height:100%;object-fit:cover;display:block}
 .crow .nm{font-size:13.5px;font-weight:600;line-height:1.3}
 .crow .vr{font-size:11.5px;color:#8e8e93;margin-top:2px}
 .crow .pr{color:var(--p);font-weight:800;font-size:14px;margin-top:4px}
-.del{background:none;color:#c7c7cc;font-size:17px;align-self:flex-start}
+.del{color:#c7c7cc;font-size:17px;align-self:flex-start}
+.later{font-size:11.5px;color:var(--p);font-weight:600;margin-top:5px}
 .sum{background:#fff;border-radius:14px;padding:14px;margin-top:4px;font-size:14px}
 .sum div{display:flex;justify-content:space-between;padding:4px 0;color:#555}
 .sum .tot{border-top:1px dashed #e3e3e8;margin-top:8px;padding-top:10px;color:#16161a;font-weight:800;font-size:16px}
+.sum .discrow{color:var(--gr);font-weight:700}
 .cta{width:100%;background:var(--p);color:#fff;padding:15px;border-radius:13px;font-size:15.5px;font-weight:800;margin-top:12px}
-.cta:active{background:var(--pd)}
-.empty{text-align:center;padding:56px 20px;color:#8e8e93}
-.empty .em{font-size:64px;margin-bottom:12px}
+.empty{text-align:center;padding:52px 20px;color:#8e8e93}
+.empty .em{font-size:60px;margin-bottom:12px}
 .empty b{color:#333;display:block;font-size:17px;margin-bottom:5px}
-/* form */
+.prog{background:#fff;border-radius:14px;padding:13px 14px;margin-bottom:10px;font-size:13px}
+.prog .tr{height:9px;background:#eeeef2;border-radius:5px;overflow:hidden;margin-top:8px}
+.prog .fl{height:100%;background:linear-gradient(90deg,var(--p),#9b4dff);border-radius:5px;transition:.3s}
+.promo{display:flex;gap:8px;margin-bottom:10px}
+.promo input{flex:1;padding:12px;border:1.5px solid #e0e0e6;border-radius:12px;background:#fff;outline:none;text-transform:uppercase}
+.promo button{background:#16161a;color:#fff;padding:0 18px;border-radius:12px;font-weight:700;font-size:13.5px}
+/* forma */
 .fld{margin-bottom:12px}
 .fld label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
 .fld input,.fld select,.fld textarea{width:100%;padding:13px;border:1.5px solid #e0e0e6;border-radius:12px;background:#fff;outline:none}
-.fld input:focus{border-color:var(--p)}
+.fld input:focus,.fld select:focus{border-color:var(--p)}
 .payrow{display:flex;gap:9px}
-.pay{flex:1;background:#fff;border:1.5px solid #e0e0e6;border-radius:12px;padding:13px 6px;text-align:center;font-size:13px;font-weight:700;cursor:pointer}
+.pay{flex:1;background:#fff;border:1.5px solid #e0e0e6;border-radius:12px;padding:12px 6px;text-align:center;font-size:13px;font-weight:700;cursor:pointer}
 .pay.on{border-color:var(--p);color:var(--p);background:#f4efff}
-.pay div{font-size:21px;margin-bottom:4px}
-/* orders / profile */
-.ord{background:#fff;border-radius:14px;padding:13px;margin-bottom:10px}
-.ord .oh{display:flex;justify-content:space-between;font-size:13px;color:#8e8e93}
-.st{font-weight:700;padding:3px 9px;border-radius:12px;font-size:11.5px;background:#fff4d6;color:#9a7400}
-.st.done{background:#e2f7e9;color:#0a7a37}
-.ord .oi{font-size:13.5px;margin-top:8px;line-height:1.5}
-.ord .ot{font-weight:800;margin-top:6px}
+.pay div{font-size:20px;margin-bottom:4px}
+.pay small{display:block;font-weight:400;color:#8e8e93;font-size:10.5px;margin-top:2px}
+.mrow{display:flex;gap:9px}
+.meth{flex:1;background:#fff;border:1.5px solid #e0e0e6;border-radius:12px;padding:12px;text-align:left;cursor:pointer;font-size:13.5px}
+.meth.on{border-color:var(--p);background:#f4efff}
+.meth b{display:block;font-size:14px;margin-bottom:2px}
+.meth small{color:#8e8e93;font-size:11.5px;line-height:1.4;display:block}
+/* buyurtmalar */
+.ord{background:#fff;border-radius:14px;padding:14px;margin-bottom:11px}
+.ord .oh{display:flex;justify-content:space-between;font-size:13px;color:#8e8e93;align-items:center}
+.ord .oh b{color:#16161a;font-size:14.5px}
+.tl{display:flex;margin:14px 0 4px}
+.tl .st{flex:1;text-align:center;position:relative;font-size:9.8px;color:#aeaeb2;padding-top:15px;line-height:1.25}
+.tl .st:before{content:"";position:absolute;top:4px;left:50%;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:#e3e3e8;z-index:2}
+.tl .st:after{content:"";position:absolute;top:9px;left:calc(-50% + 6px);width:calc(100% - 12px);height:2.5px;background:#e3e3e8}
+.tl .st:first-child:after{display:none}
+.tl .st.done{color:var(--p);font-weight:700}
+.tl .st.done:before{background:var(--p)}
+.tl .st.done:after{background:var(--p)}
+.oimgs{display:flex;gap:7px;margin-top:11px}
+.oimgs img{width:46px;height:46px;border-radius:9px;object-fit:cover}
+.ord .oi{font-size:13px;margin-top:9px;line-height:1.55;color:#333}
+.ord .ot{font-weight:800;margin-top:7px;font-size:15px}
+.ord .om{font-size:12.5px;color:#8e8e93;margin-top:3px;line-height:1.5}
+.obtns{display:flex;gap:8px;margin-top:11px}
+.obtns button{flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:700;background:#f2f2f5;color:#333}
+.obtns .cancel{color:var(--red)}
+.stbadge{font-weight:700;padding:3px 9px;border-radius:12px;font-size:11.5px;background:#fff4d6;color:#9a7400}
+.stbadge.cx{background:#ffe3e9;color:#c2183f}
+/* profil */
 .prof{background:#fff;border-radius:16px;padding:18px 14px;display:flex;gap:13px;align-items:center}
-.pava{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--p),#9b4dff);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800}
+.pava{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--p),#9b4dff);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;flex-shrink:0}
 .menu{background:#fff;border-radius:14px;margin-top:12px;overflow:hidden}
-.menu button{display:flex;width:100%;background:none;padding:15px 14px;font-size:14.5px;justify-content:space-between;border-bottom:1px solid #f2f2f5;text-align:left}
+.menu button{display:flex;width:100%;padding:15px 14px;font-size:14.5px;justify-content:space-between;border-bottom:1px solid #f2f2f5;text-align:left;color:#16161a}
 .menu button:last-child{border-bottom:none}
-.ok{text-align:center;padding:48px 22px}
-.ok .em{font-size:76px}
+.ok{text-align:center;padding:44px 22px}
+.ok .em{font-size:72px}
 .ok h2{font-size:21px;margin:14px 0 8px}
 .ok p{color:#666;font-size:14px;line-height:1.55}
-.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(20px);background:#16161a;color:#fff;padding:11px 18px;border-radius:22px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:99;white-space:nowrap}
+.toast{position:fixed;bottom:150px;left:50%;transform:translateX(-50%) translateY(20px);background:#16161a;color:#fff;padding:11px 18px;border-radius:22px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:99;white-space:nowrap;max-width:92vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .chips{display:flex;gap:8px;padding:0 12px 10px;overflow-x:auto;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip2{padding:8px 14px;border-radius:20px;background:#fff;font-size:13px;white-space:nowrap;box-shadow:0 1px 5px rgba(0,0,0,.05)}
 .chip2.on{background:#16161a;color:#fff;font-weight:600}
+select.sortsel{padding:9px 12px;border-radius:11px;border:1.5px solid #e0e0e6;background:#fff;font-size:13.5px;outline:none}
+.sztable{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.sztable td,.sztable th{border:1px solid #eee;padding:7px;text-align:center;color:#444}
+.sztable th{background:#f7f7fa}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <div class="toast" id="toast"></div>
 <script>
+const G="assets/";
 const PRODUCTS=[
- {id:1,img:"assets/p1.jpg",name:"Krossovka erkaklar uchun, yugurish va kundalikka, tagligi yumshoq",price:329000,old:479000,rate:"4.8",rev:316,cat:"poyabzal",tag:"-31%",desc:"Tagligi yumshoq — kun bo'yi kiysangiz ham oyoq charchamaydi. Setkasi havo o'tkazadi, yozda ham qulay. O'lchami aniq keladi: odatda qaysi o'lcham kiysangiz, o'shani tanlang.",opts:["40","41","42","43","44","45"],olab:"O'lcham"},
- {id:2,img:"assets/p2.jpg",name:"Smart soat, qo'ng'iroq qilib bo'ladi, AMOLED ekran",price:219000,old:299000,rate:"4.7",rev:189,cat:"texnika",tag:"-27%",desc:"Telefonga Bluetooth orqali ulanadi, to'g'ridan-to'g'ri soatdan gaplashsangiz bo'ladi. Puls, qadam va uyquni o'lchaydi. Zaryadi 7-10 kun yetadi, kamari qo'shimcha beriladi.",opts:["Ko'k","Qora","Kulrang"],olab:"Rang"},
- {id:3,img:"assets/p3.jpg",name:"Simsiz quloqchin, mikrofoni bor, quvvat qutisi bilan",price:119000,old:169000,rate:"4.6",rev:427,cat:"texnika",tag:"",desc:"Ovozi baland va tiniq, mikrofoni gaplashganda yaxshi eshitiladi. Qutisi bilan birga zaryadi 20 soatgacha yetadi. Barcha telefonlarga ulanadi.",opts:["Oq","Qora"],olab:"Rang"},
- {id:4,img:"assets/p4.jpg",name:"Ayollar sumkasi, tabiiy teri, yelkaga osiladigan",price:249000,old:320000,rate:"4.9",rev:98,cat:"aksessuar",tag:"",desc:"Teri yumshoq, choki tekis tikilgan. Ichiga hamyon, telefon va kosmetika bemalol sig'adi. Uzun kamari bor — yelkaga ham, qo'lga ham osiladi.",opts:["Jigarrang","Qora"],olab:"Rang"},
- {id:5,img:"assets/p5.jpg",name:"Erkaklar kurtkasi, qishki, ichi issiq, suv shimmaydi",price:459000,old:590000,rate:"4.8",rev:64,cat:"kiyim",tag:"-22%",desc:"Qish uchun: ichi qalin, sovuq o'tkazmaydi. Yomg'irda suv shimmaydi, kapyushoni bor. Cho'ntagi 4 ta. O'lcham bo'yicha savol bo'lsa, buyurtmada izoh qoldiring — o'zimiz aniqlashtiramiz.",opts:["M","L","XL","XXL"],olab:"O'lcham"},
- {id:6,img:"assets/p6.jpg",name:"Jinsi shim erkaklar uchun, klassik ko'k, bichimi to'g'ri",price:189000,old:0,rate:"4.7",rev:143,cat:"kiyim",tag:"",desc:"Denimi zich, tizzasi cho'zilib ketmaydi. Oyoqqa yaxshi o'tiradi. Krossovka bilan ham, tufli bilan ham ketadi.",opts:["30","31","32","33","34","36"],olab:"O'lcham"},
- {id:7,img:"assets/p7.jpg",name:"Ryukzak, 15.6 noutbuk sig'adi, shahar va o'qish uchun",price:159000,old:210000,rate:"4.8",rev:257,cat:"aksessuar",tag:"-24%",desc:"Noutbuk uchun alohida yumshoq bo'lmasi bor. Orqasi qotib turadi, yelka kamarlari keng — og'ir bo'lsa ham yelkani ezmaydi. Oldida kichik cho'ntagi bor.",opts:["Ko'k","Qora"],olab:"Rang"},
- {id:8,img:"assets/p8.jpg",name:"Telefon g'ilofi, zarbaga chidamli, shaffof",price:39000,old:65000,rate:"4.6",rev:812,cat:"texnika",tag:"-40%",desc:"Burchaklari kuchaytirilgan — telefon tushib ketsa ham himoya qiladi. Shaffof, orqa ko'rinishi qoladi. Kameraga alohida bo'rtma himoyasi bor. Modelni to'g'ri tanlang.",opts:["iPhone","Samsung","Xiaomi","Redmi"],olab:"Model"},
- {id:9,img:"assets/p9.jpg",name:"Kepka oq, yozgi, o'lchami orqasidan sozlanadi",price:69000,old:0,rate:"4.5",rev:76,cat:"kiyim",tag:"",desc:"Paxta aralash mato, bosh terlamaydi. Orqasidagi kamar bilan o'lcham sozlanadi. Quyoshdan yaxshi himoya qiladi.",opts:["Oq","Qora","Ko'k"],olab:"Rang"},
- {id:10,img:"assets/p10.jpg",name:"Atir 50 ml, ifori uzoq turadigan, sovg'aga ham bo'ladi",price:279000,old:350000,rate:"4.9",rev:204,cat:"aksessuar",tag:"-20%",desc:"Ifоri achchiq emas, kun davomida 6-8 soat saqlanadi. Shishasi sovg'a qutisida keladi. Ayollarga ham, erkaklarga ham to'g'ri keladigan universal ifor.",opts:["50 ml","100 ml"],olab:"Hajm"}
+ {id:1,imgs:["p1.jpg","p1_2.jpg","p1_3.jpg"],name:"Krossovka erkaklar uchun, yugurish va kundalikka, tagligi yumshoq",price:329000,old:479000,rate:4.8,rev:316,sold:214,stock:14,cat:"poyabzal",tag:"-31%",olab:"O'lcham",opts:["40","41","42","43","44","45"],out:["45"],desc:"Tagligi yumshoq — kun bo'yi kiysangiz ham oyoq charchamaydi. Setkasi havo o'tkazadi, yozda ham qulay.\nO'lchami aniq keladi: odatda qaysi o'lcham kiysangiz, o'shani tanlang. Bo'y/boshqa savol bo'lsa buyurtmada izoh qoldiring, o'zimiz qo'ng'iroq qilib aniqlashtiramiz.",reviews:[{n:"Jasur",d:"2-noyabr",s:5,t:"Bir haftadan beri kiyaman, oyog'im umuman charchamadi. 42 kiydim, xuddi o'zi keldi.",v:1},{n:"Malika",d:"28-oktabr",s:5,t:"Erimga oldim, 43 o'lcham aniq keldi. Sifati narxiga arziydi, rangi rasmdagidek.",v:1},{n:"Otabek",d:"19-oktabr",s:4,t:"Yaxshi krossovka, faqat yetkazish 2 kun bo'ldi. Mahsulotning o'ziga gap yo'q.",v:1}]},
+ {id:2,imgs:["p2.jpg","p2_2.jpg","p2_3.jpg"],name:"Smart soat, qo'ng'iroq qilib bo'ladi, AMOLED ekran",price:219000,old:299000,rate:4.7,rev:189,sold:167,stock:8,cat:"texnika",tag:"-27%",olab:"Rang",opts:["Ko'k","Qora","Kulrang"],out:[],desc:"Telefonga Bluetooth orqali ulanadi, to'g'ridan-to'g'ri soatdan gaplashsangiz bo'ladi. Puls, qadam va uyquni o'lchaydi.\nZaryadi ishlatishingizga qarab 7-10 kun yetadi. Qutida qo'shimcha kamar ham bor.",reviews:[{n:"Dilnoza",d:"1-noyabr",s:5,t:"Qo'ng'iroqlar soatda ko'rinishi juda qulay ekan, telefonga har safar qaramayman. Zaryadi 8 kun bordi.",v:1},{n:"Sardor",d:"24-oktabr",s:4,t:"Ekrani yorqin, funksiyalari ko'p. Faqat ilovasini sozlash boshida biroz vaqt oldi.",v:1}]},
+ {id:3,imgs:["p3.jpg","p3_2.jpg","p3_3.jpg"],name:"Simsiz quloqchin, mikrofoni bor, quvvat qutisi bilan",price:119000,old:169000,rate:4.6,rev:427,sold:389,stock:23,cat:"texnika",tag:"",olab:"Rang",opts:["Oq","Qora"],out:[],desc:"Ovozi baland va tiniq, mikrofoni gaplashganda yaxshi eshitiladi. Qutisi bilan birga zaryadi 20 soatgacha yetadi.\nBarcha telefonlarga ulanadi — Android ham, iPhone ham.",reviews:[{n:"Nodira",d:"3-noyabr",s:5,t:"Musiqa eshitishga zo'r, basslari kuchli. Metroda ham tashqi shovqin deyarli eshitilmaydi.",v:1},{n:"Bekzod",d:"27-oktabr",s:4,t:"Ovozi yaxshi, lekin qutisi cho'ntakda biroz bilinadi. Umuman olganda narxiga mos.",v:1}]},
+ {id:4,imgs:["p4.jpg","p4_2.jpg","p4_3.jpg"],name:"Ayollar sumkasi, tabiiy teri, yelkaga osiladigan",price:249000,old:320000,rate:4.9,rev:98,sold:76,stock:5,cat:"aksessuar",tag:"",olab:"Rang",opts:["Jigarrang","Qora"],out:[],desc:"Terisi yumshoq, choki tekis tikilgan. Ichiga hamyon, telefon va kosmetika bemalol sig'adi.\nUzun kamari bor — yelkaga ham, qo'lg'a ham osiladi. Ichida kichik cho'ntagi bor.",reviews:[{n:"Gulnoza",d:"30-oktabr",s:5,t:"Rasmdagidan ham chiroyli ekan. Terisi haqiqiy, hidi ham yo'q. Har kun ishlataman.",v:1},{n:"Kamola",d:"21-oktabr",s:5,t:"Onamga sovg'a qildim, juda xursand bo'ldi. Qadoqlash ham chiroyli edi.",v:1}]},
+ {id:5,imgs:["p5.jpg","p5_2.jpg","p5_3.jpg"],name:"Erkaklar kurtkasi, qishki, ichi issiq, suv shimmaydi",price:459000,old:590000,rate:4.8,rev:64,sold:52,stock:11,cat:"kiyim",tag:"-22%",olab:"O'lcham",opts:["M","L","XL","XXL"],out:["XXL"],desc:"Qish uchun: ichi qalin, sovuq o'tkazmaydi. Yomg'irda suv shimmaydi, kapyushoni bor, cho'ntagi 4 ta.\nO'lcham bo'yicha ikkilansangiz, buyurtmada bo'yingizni yozing — operator mosini tanlab beradi.",reviews:[{n:"Ulug'bek",d:"29-oktabr",s:5,t:"-5 sovuqda ichida futbolka bilan yurdim, muzlamadim. Kapyushoni ham qulay.",v:1},{n:"Sherzod",d:"18-oktabr",s:4,t:"Kurtka issiq, lekin bitta tugmasi bo'shroq tikilgan ekan. Qolgan hammasi joyida.",v:1}]},
+ {id:6,imgs:["p6.jpg","p6_2.jpg","p6_3.jpg"],name:"Jinsi shim erkaklar uchun, klassik ko'k, bichimi to'g'ri",price:189000,old:0,rate:4.7,rev:143,sold:121,stock:19,cat:"kiyim",tag:"",olab:"O'lcham",opts:["30","31","32","33","34","36"],out:[],desc:"Denimi zich, tizzasi cho'zilib ketmaydi. Oyoqqa yaxshi o'tiradi.\nKrossovka bilan ham, klassik tufli bilan ham ketadi.",reviews:[{n:"Doniyor",d:"26-oktabr",s:5,t:"32 oldim, belidan ham, uzunligidan ham aniq keldi. Matosi qalin, yaxshi.",v:1},{n:"Akmal",d:"15-oktabr",s:4,t:"Rangi rasmdagidan sal to'qroq ekan, lekin menga shunisi yoqdi.",v:1}]},
+ {id:7,imgs:["p7.jpg","p7_2.jpg","p7_3.jpg"],name:"Ryukzak, 15.6 noutbuk sig'adi, shahar va o'qish uchun",price:159000,old:210000,rate:4.8,rev:257,sold:203,stock:7,cat:"aksessuar",tag:"-24%",olab:"Rang",opts:["Ko'k","Qora"],out:[],desc:"Noutbuk uchun alohida yumshoq bo'lmasi bor. Orqasi qotib turadi, yelka kamarlari keng — og'ir bo'lsa ham yelkani ezmaydi.\nOldida kichik cho'ntagi, yonida suv idishi uchun joyi bor.",reviews:[{n:"Javohir",d:"31-oktabr",s:5,t:"Har kuni universitetga olib yuraman, noutbuk + kitoblar sig'adi. Fermuari mustahkam.",v:1},{n:"Sevara",d:"22-oktabr",s:5,t:"Ishga ham, sayohatga ham ishlatdim. Ichki bo'lmalari juda o'ylab qilingan.",v:1}]},
+ {id:8,imgs:["p8.jpg","p8_2.jpg","p8_3.jpg"],name:"Telefon g'ilofi, zarbaga chidamli, shaffof",price:39000,old:65000,rate:4.6,rev:812,sold:940,stock:46,cat:"texnika",tag:"-40%",olab:"Model",opts:["iPhone","Samsung","Xiaomi","Redmi"],out:[],desc:"Burchaklari kuchaytirilgan — telefon tushib ketsa ham himoya qiladi. Shaffof, orqa ko'rinishi qoladi.\nKameraga alohida bo'rtma himoyasi bor. Modelni to'g'ri tanlang — adashsangiz almashtirib beramiz.",reviews:[{n:"Farrux",d:"2-noyabr",s:5,t:"Telefon ikki marta tushdi, hech narsa bo'lmadi. G'ilof o'zini oqladi.",v:1},{n:"Zilola",d:"25-oktabr",s:4,t:"Yaxshi g'ilof, faqat boshida biroz qattiq taqildi. Keyin joyiga tushdi.",v:1}]},
+ {id:9,imgs:["p9.jpg","p9_2.jpg","p9_3.jpg"],name:"Kepka oq, yozgi, o'lchami orqasidan sozlanadi",price:69000,old:0,rate:4.5,rev:76,sold:64,stock:31,cat:"kiyim",tag:"",olab:"Rang",opts:["Oq","Qora","Ko'k"],out:["Ko'k"],desc:"Paxta aralash mato, bosh terlamaydi. Orqasidagi kamar bilan o'lcham sozlanadi.\nQuyoshdan yaxshi himoya qiladi, yuvsa bo'ladi.",reviews:[{n:"Timur",d:"20-oktabr",s:4,t:"Yengil kepka, yozda boshi terlatmadi. Oq bo'lgani uchun tez kir bo'ladi, shu minus.",v:1},{n:"Oysha",d:"12-oktabr",s:5,t:"O'g'limga oldim, o'lchami sozlanishi qulay ekan. Sifati yaxshi.",v:1}]},
+ {id:10,imgs:["p10.jpg","p10_2.jpg","p10_3.jpg"],name:"Atir 50 ml, ifori uzoq turadigan, sovg'aga ham bo'ladi",price:279000,old:350000,rate:4.9,rev:204,sold:158,stock:9,cat:"aksessuar",tag:"-20%",olab:"Hajm",opts:["50 ml"],out:[],desc:"Ifori achchiq emas, kun davomida 6-8 soat saqlanadi. Shishasi sovg'a qutisida keladi.\nUniversal ifor — ayollarga ham, erkaklarga ham to'g'ri keladi.",reviews:[{n:"Madina",d:"1-noyabr",s:5,t:"Ifori juda nozik, hamkasblarim ham so'radi qayerdan olding deb. Ertalab sepsam kechgacha turadi.",v:1},{n:"Rustam",d:"23-oktabr",s:5,t:"Xotinimga sovg'a qildim, qutisi ham chiroyli. Ifori og'ir emas, yoqimli.",v:1}]}
 ];
-const CATS=[{k:"all",img:"assets/p1.jpg",n:"Hammasi"},{k:"kiyim",img:"assets/p5.jpg",n:"Kiyim"},{k:"poyabzal",img:"assets/p1.jpg",n:"Poyabzal"},{k:"texnika",img:"assets/p2.jpg",n:"Texnika"},{k:"aksessuar",img:"assets/p4.jpg",n:"Aksessuar"}];
-let cart={}, favs=new Set(), orders=[], pay="click", selOpt={}, selQty=1;
+const CATS=[{k:"all",img:"p1.jpg",n:"Hammasi"},{k:"kiyim",img:"p5.jpg",n:"Kiyim"},{k:"poyabzal",img:"p1.jpg",n:"Poyabzal"},{k:"texnika",img:"p2.jpg",n:"Texnika"},{k:"aksessuar",img:"p4.jpg",n:"Aksessuar"}];
+const POINTS=["Chilonzor tumani, Bunyodkor shoh ko'chasi 12 — 09:00–21:00","Yunusobod tumani, Amir Temur xiyoboni 45 — 09:00–21:00","Mirzo Ulug'bek tumani, Buyuk Ipak Yo'li ko'chasi 78 — 09:00–20:00"];
+const PROMOS={"AZURA10":10,"KANAL10":10};
+const MONTHS=["yanvar","fevral","mart","aprel","may","iyun","iyul","avgust","sentabr","oktabr","noyabr","dekabr"];
+const STEPS=["Qabul qilindi","Tasdiqlandi","Tayyorlanmoqda","Yo'lda","Topshirildi"];
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
-if(tg){tg.ready();tg.expand();}
+if(tg){try{tg.ready();tg.expand();}catch(e){}}
+/* --- holat + saqlash --- */
+let S={cart:{},favs:[],orders:[],recent:[],promo:"",phone:"",addr:""};
+try{const raw=localStorage.getItem("azura_market_v3");if(raw)S=Object.assign(S,JSON.parse(raw));}catch(e){}
+let pay="click",method="courier",pointIdx=0,selOpt={},selQty=1,galIdx={},filterCat="all",query="",sortBy="pop",priceBand="all",onlyDisc=false;
+function save(){try{localStorage.setItem("azura_market_v3",JSON.stringify(S));}catch(e){}}
 const fmt=n=>n.toString().replace(/\B(?=(\d{3})+(?!\d))/g," ")+" so'm";
 const byId=id=>PRODUCTS.find(p=>p.id===+id);
-const cartCount=()=>Object.values(cart).reduce((a,c)=>a+c.qty,0);
-const cartSum=()=>Object.values(cart).reduce((a,c)=>a+byId(c.id).price*c.qty,0);
-function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800);if(tg&&tg.HapticFeedback)tg.HapticFeedback.notificationOccurred('success');}
+const discPct=p=>p.old?Math.round((1-p.price/p.old)*100):0;
+const inst=p=>Math.round(p.price/3/1000)*1000;
+const cartCount=()=>Object.values(S.cart).reduce((a,c)=>a+c.qty,0);
+const goodsSum=()=>Object.values(S.cart).reduce((a,c)=>a+byId(c.id).price*c.qty,0);
+const promoDisc=()=>S.promo&&PROMOS[S.promo]?Math.round(goodsSum()*PROMOS[S.promo]/100):0;
+function dateStr(add){const d=new Date();d.setDate(d.getDate()+add);return d.getDate()+"-"+MONTHS[d.getMonth()];}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1900);if(tg&&tg.HapticFeedback)try{tg.HapticFeedback.impactOccurred('light');}catch(e){}}
 function go(h){location.hash=h;}
 function nav(active){
  const c=cartCount();
@@ -169,119 +247,242 @@ function nav(active){
 }
 function header(){
  return `<div class="header"><div class="top"><span>📍 Toshkent shahri</span><span class="bell">🔔<i></i></span></div>
- <div class="logo">MARKET<span>•</span>UZ</div>
- <div class="search">🔍 <input id="q" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div></div>`;
+ <div class="logo">AZURA<span>•</span>MARKET</div>
+ <div class="search">🔍 <input id="q" value="${query.replace(/"/g,'&quot;')}" placeholder="Nima qidiryapsiz? Krossovka, soat, atir..." oninput="onSearch(this.value)"></div></div>`;
 }
+function starsHTML(r){const f=Math.round(r);return "★★★★★".slice(0,f)+"☆☆☆☆☆".slice(0,5-f);}
 function card(p){
- const inCart=cart[p.id];
+ const inCart=S.cart[p.id];
  return `<div class="card" onclick="go('#/product/${p.id}')">
- <div class="ph"><img src="${p.img}" alt="" loading="lazy">${p.tag?`<span class="badge ${p.tag==='YANGI'?'new':''}">${p.tag}</span>`:''}<button class="fav ${favs.has(p.id)?'on':''}" onclick="event.stopPropagation();toggleFav(${p.id})">${favs.has(p.id)?'❤️':'♡'}</button></div>
+ <div class="ph"><img src="${G}${p.imgs[0]}" alt="" loading="lazy">${p.tag?`<span class="badge">${p.tag}</span>`:''}<button class="fav ${S.favs.includes(p.id)?'on':''}" onclick="event.stopPropagation();toggleFav(${p.id})">${S.favs.includes(p.id)?'❤️':'♡'}</button></div>
  <div class="info"><span class="price">${fmt(p.price)}</span>${p.old?`<span class="old">${fmt(p.old)}</span>`:''}
- <div class="pname">${p.name}</div><div class="rate">★ ${p.rate} (${p.rev})</div>
+ <span class="inst">oyiga ${fmt(inst(p))} dan</span>
+ <div class="pname">${p.name}</div>
+ <div class="rate">★ ${p.rate} <i>(${p.rev} sharh) • ${p.sold} sotilgan</i></div>
+ <div class="stockline ${p.stock<=5?'low':''}">${p.stock<=5?'⚠️ Kam qoldi: '+p.stock+' dona':'Bor: '+p.stock+' dona'}</div>
  <button class="add ${inCart?'added':''}" onclick="event.stopPropagation();quickAdd(${p.id})">${inCart?'✓ Savatda ('+inCart.qty+')':'🛒 Savatga'}</button></div></div>`;
 }
-let filterCat="all", query="";
-function onSearch(v){query=v.toLowerCase();const g=document.getElementById('grid');if(g)g.innerHTML=filtered().map(card).join('')||emptyGrid();}
-function filtered(){return PRODUCTS.filter(p=>(filterCat==="all"||p.cat===filterCat)&&p.name.toLowerCase().includes(query));}
-function emptyGrid(){return `<div class="empty" style="grid-column:1/-1"><div class="em">🔍</div><b>Topilmadi</b>Boshqa so'z bilan qidirib ko'ring</div>`;}
-function setCat(k){filterCat=k;render();}
-function home(){
- filterCat=filterCat||"all";
- return header()+`
- <div class="banner"><b>Juma chegirmasi 🛍</b><small>Krossovkalar 329 mingdan — hafta oxirigacha</small><br><span class="chip">Ko'rish →</span></div>
- <div class="cats">${CATS.map(c=>`<div class="cat ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}')"><div class="ic"><img src="${c.img}" alt=""></div>${c.n}</div>`).join('')}</div>
- <div class="sec"><b>Ko'p sotilayotganlar</b><a onclick="go('#/catalog')">Hammasi →</a></div>
- <div class="grid" id="grid">${filtered().map(card).join('')||emptyGrid()}</div>`+nav('home');
+function filtered(){
+ let arr=PRODUCTS.filter(p=>(filterCat==="all"||p.cat===filterCat)&&p.name.toLowerCase().includes(query.toLowerCase()));
+ if(priceBand==="u100")arr=arr.filter(p=>p.price<100000);
+ if(priceBand==="100300")arr=arr.filter(p=>p.price>=100000&&p.price<=300000);
+ if(priceBand==="o300")arr=arr.filter(p=>p.price>300000);
+ if(onlyDisc)arr=arr.filter(p=>p.old>0);
+ if(sortBy==="cheap")arr.sort((a,b)=>a.price-b.price);
+ else if(sortBy==="exp")arr.sort((a,b)=>b.price-a.price);
+ else if(sortBy==="disc")arr.sort((a,b)=>discPct(b)-discPct(a));
+ else arr.sort((a,b)=>b.sold-a.sold);
+ return arr;
 }
+function onSearch(v){query=v;const g=document.getElementById('grid');if(g){g.innerHTML=filtered().map(card).join('')||emptyGrid();}}
+function emptyGrid(){return `<div class="empty" style="grid-column:1/-1"><div class="em">🔍</div><b>Hech narsa topilmadi</b>Yozuvni tekshirib, qayta qidiring</div>`;}
+function setCat(k){filterCat=k;render();}
+function toggleFav(id){const i=S.favs.indexOf(id);if(i>=0)S.favs.splice(i,1);else{S.favs.push(id);toast('Sevimlilarga qo\'shildi ❤️');}save();render();}
+function quickAdd(id){const p=byId(id);if(S.cart[id])S.cart[id].qty++;else S.cart[id]={id,qty:1,opt:p.opts[0]};save();toast('Savatga tushdi ✓');render();}
+</script>
+<script>
+function home(){
+ const top=[...PRODUCTS].sort((a,b)=>b.sold-a.sold).slice(0,6);
+ const yang=[4,10,7,9].map(byId);
+ const hafta=[...PRODUCTS].filter(p=>p.old).sort((a,b)=>discPct(b)-discPct(a)).slice(0,4);
+ const recent=S.recent.map(byId).filter(Boolean);
+ return header()+`
+ ${query?'':`<div class="popq"><span>Ommabop:</span>${["Krossovka","Smart soat","Atir","Kurtka","Ryukzak"].map(w=>`<button onclick="setQuery('${w}')">${w}</button>`).join('')}</div>`}
+ <div class="banner"><b>Juma chegirmasi — krossovkalar 329 mingdan</b><small>Hafta oxirigacha. Kanal obunachilariga promokod: KANAL10</small><br><span class="chip" onclick="setCat('poyabzal');go('#/catalog')">Ko'rish →</span></div>
+ <div class="cats">${CATS.map(c=>`<div class="cat ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}');go('#/catalog')"><div class="ic"><img src="${G}${c.img}" alt=""></div>${c.n}</div>`).join('')}</div>
+ <div class="sec"><b>Ko'p sotilayotganlar</b><a onclick="go('#/catalog')">Hammasi →</a></div>
+ <div class="grid" id="grid">${(query?filtered():top).map(card).join('')||emptyGrid()}</div>
+ ${query?'':`
+ <div class="sec"><b>🆕 Yangi kelganlar</b></div>
+ <div class="hscroll">${yang.map(card).join('')}</div>
+ <div class="sec"><b>🔥 Hafta taklifi</b></div>
+ <div class="grid">${hafta.map(card).join('')}</div>
+ ${recent.length?`<div class="sec"><b>👀 Oxirgi ko'rganlaringiz</b></div><div class="hscroll">${recent.map(card).join('')}</div>`:''}
+ <p style="text-align:center;color:#aeaeb2;font-size:12px;padding:16px 10px 4px">Azura Market — kanalimizdagi barcha tovarlar shu yerda.<br>Savol bo'lsa botga yozing, javob beramiz 💬</p>`}
+ `+nav('home');
+}
+function setQuery(w){query=w;render();}
 function catalog(){
- return header()+`<div class="sec" style="padding-top:16px"><b>🧭 Katalog</b></div>
+ return header()+`<div class="sec" style="padding-top:16px"><b>🧭 Katalog</b>
+ <select class="sortsel" onchange="sortBy=this.value;render()">
+ <option value="pop" ${sortBy==='pop'?'selected':''}>Avval mashhurlari</option>
+ <option value="cheap" ${sortBy==='cheap'?'selected':''}>Avval arzonlari</option>
+ <option value="exp" ${sortBy==='exp'?'selected':''}>Avval qimmatlari</option>
+ <option value="disc" ${sortBy==='disc'?'selected':''}>Chegirmasi kattalari</option></select></div>
  <div class="chips">${CATS.map(c=>`<button class="chip2 ${filterCat===c.k?'on':''}" onclick="setCat('${c.k}')">${c.n}</button>`).join('')}</div>
+ <div class="chips">
+ <button class="chip2 ${priceBand==='all'?'on':''}" onclick="priceBand='all';render()">Narx: hammasi</button>
+ <button class="chip2 ${priceBand==='u100'?'on':''}" onclick="priceBand='u100';render()">100 minggacha</button>
+ <button class="chip2 ${priceBand==='100300'?'on':''}" onclick="priceBand='100300';render()">100–300 ming</button>
+ <button class="chip2 ${priceBand==='o300'?'on':''}" onclick="priceBand='o300';render()">300 mingdan yuqori</button>
+ <button class="chip2 ${onlyDisc?'on':''}" onclick="onlyDisc=!onlyDisc;render()">🏷 Faqat chegirmada</button>
+ </div>
+ <p style="padding:0 14px 8px;color:#8e8e93;font-size:12.5px">${filtered().length} ta tovar topildi</p>
  <div class="grid" id="grid">${filtered().map(card).join('')||emptyGrid()}</div>`+nav('catalog');
 }
 function product(id){
  const p=byId(id);if(!p)return home();
- if(selOpt[p.id]===undefined)selOpt[p.id]=p.opts[0];selQty=cart[p.id]?cart[p.id].qty:1;
- const inCart=cart[p.id];
+ if(!S.recent.includes(p.id)){S.recent.unshift(p.id);S.recent=S.recent.slice(0,6);save();}
+ if(selOpt[p.id]===undefined||p.out.includes(selOpt[p.id]))selOpt[p.id]=p.opts.find(o=>!p.out.includes(o))||p.opts[0];
+ selQty=S.cart[p.id]?S.cart[p.id].qty:1;
+ const gi=galIdx[p.id]||0;
+ const inCart=S.cart[p.id];
+ const similar=PRODUCTS.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,4);
+ const dist=[62,24,9,3,2];
  return `<button class="back" onclick="history.back()">← Orqaga</button>
- <div class="pbig"><img src="${p.img}" alt="">${p.tag?`<span class="badge ${p.tag==='YANGI'?'new':''}" style="font-size:13px;padding:5px 10px">${p.tag}</span>`:''}</div>
+ <div class="gal"><img class="main" id="galmain" src="${G}${p.imgs[gi]}" alt="">
+ ${p.tag?`<span class="badge">${p.tag}</span>`:''}<span class="gcount">${gi+1} / ${p.imgs.length}</span></div>
+ <div class="thumbs">${p.imgs.map((im,i)=>`<img src="${G}${im}" class="${i===gi?'on':''}" onclick="galIdx[${p.id}]=${i};render()">`).join('')}</div>
  <div class="pbody">
- <span class="price">${fmt(p.price)}</span>${p.old?`<span class="old" style="font-size:14px">${fmt(p.old)}</span>`:''}
- <h2>${p.name}</h2><div class="rate" style="font-size:13px">★ ${p.rate} • ${p.rev} ta sharh</div>
+ <div class="pprice"><span class="price">${fmt(p.price)}</span>${p.old?`<span class="old">${fmt(p.old)}</span><span class="disc">-${discPct(p)}%</span>`:''}</div>
+ <div class="instbox">💳 <b>Bo'lib to'lash:</b> 3 oyga, oyiga <b>${fmt(inst(p))}</b> dan<br><small style="color:#8e8e93">Yoki bir yo'la to'liq to'lov — qanday qulay bo'lsa.</small></div>
+ <h2>${p.name}</h2>
+ <div class="rate" style="font-size:13px">★ ${p.rate} <i>• ${p.rev} ta sharh • ${p.sold} marta sotilgan</i></div>
+ <div class="stockline ${p.stock<=5?'low':''}" style="font-size:13px;margin-top:6px">${p.stock<=5?'⚠️ Kam qoldi — bor-yo\'g\'i '+p.stock+' dona qoldi':'✅ Sotuvda bor — '+p.stock+' dona'}</div>
  <p class="desc">${p.desc}</p>
- <div class="opt"><b>${p.olab}:</b><div class="selrow">${p.opts.map(o=>`<button class="sel ${selOpt[p.id]===o?'on':''}" onclick="selOpt[${p.id}]='${o}';render()">${o}</button>`).join('')}</div></div>
- <div class="opt"><b>Miqdor:</b><div class="qty"><button onclick="selQty=Math.max(1,selQty-1);render()">−</button><b>${selQty}</b><button onclick="selQty++;render()">+</button></div></div>
- <div class="buyrow"><button class="add" onclick="addCart(${p.id},true)">${inCart?'✓ Savatda — yangilash':'🛒 Savatga qo\'shish'}</button><button class="now" onclick="buyNow(${p.id})">Hoziroq olish</button></div>
- <div class="feat"><div><b>🚚</b>Yetkazish<br>1–2 kun, bepul*</div><div><b>↩️</b>Qaytarish<br>14 kun ichida</div><div><b>🛡️</b>Kafolat<br>Rasmiy</div></div>
- </div>`+nav('');
+ <div class="opt"><b>${p.olab}:</b><div class="selrow">${p.opts.map(o=>p.out.includes(o)?`<button class="sel out">${o}<span class="os">tugagan</span></button>`:`<button class="sel ${selOpt[p.id]===o?'on':''}" onclick="selOpt[${p.id}]='${o}';render()">${o}</button>`).join('')}</div></div>
+ ${p.cat==='poyabzal'?`<div class="opt"><b>📏 O'lcham jadvali (sm):</b><table class="sztable"><tr><th>40</th><th>41</th><th>42</th><th>43</th><th>44</th><th>45</th></tr><tr><td>25.5</td><td>26</td><td>26.5</td><td>27.5</td><td>28</td><td>28.5</td></tr></table></div>`:''}
+ <div class="opt"><b>Miqdor:</b><div class="qty"><button onclick="selQty=Math.max(1,selQty-1);render()">−</button><b>${selQty}</b><button onclick="selQty=Math.min(${p.stock},selQty+1);render()">+</button><span style="color:#8e8e93;font-size:12.5px">${p.stock} dona bor</span></div></div>
+ <div class="infocard"><b class="t">🚚 Yetkazib berish</b>
+ <div class="row"><span>🏠</span><span><b>Kuryer</b> — ertaga, <b>${dateStr(1)}</b>, Toshkent bo'ylab (300 mingdan oshsa bepul)</span></div>
+ <div class="row"><span>📦</span><span><b>Olib ketish punkti</b> — ${dateStr(2)} dan, bepul</span></div>
+ <div class="row"><span>↩️</span><span>To'g'ri kelmasa 14 kun ichida qaytarish mumkin</span></div></div>
+ <div class="infocard"><b class="t">🏪 Sotuvchi</b>
+ <div class="seller"><div class="sava">A</div><div><b>Azura Market do'koni</b><div style="color:#8e8e93;font-size:12.5px">★ 4.8 • 1 200+ savdo • Javob vaqti: ~15 daqiqa</div></div></div>
+ <p style="margin-top:8px;color:#666">Savol bo'lsa botga yozing — o'zimiz javob beramiz, bot emas, odam qaraydi 💬</p></div>
+ <div class="infocard"><b class="t">⭐ Sharhlar (${p.rev})</b>
+ <div style="display:flex;gap:16px;align-items:center;margin-bottom:6px"><div style="font-size:30px;font-weight:800">${p.rate}</div><div style="flex:1">${[5,4,3,2,1].map((s,i)=>`<div class="rbar"><span>${s}★</span><div class="tr"><div class="fl" style="width:${dist[i]}%"></div></div><span>${dist[i]}%</span></div>`).join('')}</div></div>
+ ${p.reviews.map(r=>`<div class="rev"><div class="rh"><span class="rn">${r.n}</span><span class="rd">${r.d}</span></div><div style="color:#ff9500;font-size:12.5px">${starsHTML(r.s)} ${r.v?'<span class="verified">✓ Sotib olgan</span>':''}</div><div class="rt">${r.t}</div></div>`).join('')}
+ </div>
+ ${similar.length?`<div class="sec" style="padding-left:0"><b>O'xshash tovarlar</b></div><div class="hscroll" style="padding-left:0;padding-right:0">${similar.map(card).join('')}</div>`:''}
+ <div style="height:64px"></div>
+ </div>
+ <div class="buybar"><button class="hbtn" onclick="toggleFav(${p.id})">${S.favs.includes(p.id)?'❤️':'🤍'}</button>
+ <div class="bp"><span class="price">${fmt(p.price*selQty)}</span><br><small>${selQty} dona • ${p.olab.toLowerCase()}: ${selOpt[p.id]}</small></div>
+ <button class="add" onclick="addCart(${p.id})">${inCart?'✓ Yangilash':'Savatga'}</button>
+ <button class="now" onclick="buyNow(${p.id})">Hoziroq olish</button></div>`+nav('');
 }
-function addCart(id,stay){const p=byId(id);cart[id]={id,qty:selQty,opt:selOpt[id]||p.opts[0]};toast('Savatga tushdi ✓');render();}
-function buyNow(id){addCartSilent(id);go('#/checkout');}
-function addCartSilent(id){const p=byId(id);cart[id]={id,qty:selQty,opt:selOpt[id]||p.opts[0]};}
-function quickAdd(id){const p=byId(id);if(cart[id])cart[id].qty++;else cart[id]={id,qty:1,opt:p.opts[0]};toast('Savatga tushdi ✓');render();}
-function toggleFav(id){favs.has(id)?favs.delete(id):favs.add(id);render();}
-function setQty(id,d){cart[id].qty+=d;if(cart[id].qty<1)delete cart[id];render();}
+function addCart(id){const p=byId(id);S.cart[id]={id,qty:selQty,opt:selOpt[id]||p.opts[0]};save();toast('Savatga tushdi ✓');render();}
+function buyNow(id){const p=byId(id);S.cart[id]={id,qty:selQty,opt:selOpt[id]||p.opts[0]};save();go('#/checkout');}
+</script>
+<script>
+function delFee(sum){return sum>=300000?0:25000;}
 function cartPage(){
- const items=Object.values(cart);
+ const items=Object.values(S.cart);
  if(!items.length)return `<div class="page"><div class="ptitle">🛒 Savat</div><div class="empty"><div class="em">🛒</div><b>Savat hozircha bo'sh</b>Yangi tovarlar kelgan, bir ko'rib chiqing</div><button class="cta" onclick="go('#/catalog')">Katalogga o'tish</button></div>`+nav('cart');
- const sum=cartSum(),del=sum>=300000?0:25000;
+ const sum=goodsSum(),pd=promoDisc(),del=delFee(sum-pd),need=Math.max(0,300000-(sum-pd)),pct=Math.min(100,Math.round((sum-pd)/300000*100));
  return `<div class="page"><div class="ptitle">🛒 Savat</div>
- ${items.map(c=>{const p=byId(c.id);return `<div class="crow"><div class="cph"><img src="${p.img}" alt=""></div>
- <div style="flex:1"><div class="nm">${p.name}</div><div class="vr">${p.olab}: ${c.opt}</div><div class="pr">${fmt(p.price*c.qty)}</div></div>
+ <div class="prog">${need>0?`Bepul yetkazishgacha yana <b>${fmt(need)}</b> qoldi`:`🎉 Yetkazish sizga <b>bepul</b> bo'ladi`}<div class="tr"><div class="fl" style="width:${pct}%"></div></div></div>
+ ${items.map(c=>{const p=byId(c.id);return `<div class="crow"><div class="cph"><img src="${G}${p.imgs[0]}" alt=""></div>
+ <div style="flex:1"><div class="nm">${p.name}</div><div class="vr">${p.olab}: ${c.opt} • Omborda ${p.stock} ta</div><div class="pr">${fmt(p.price*c.qty)}</div>
+ <button class="later" onclick="later(${p.id})">Keyinroq olaman →</button></div>
  <div class="qty"><button onclick="setQty(${p.id},-1)">−</button><b>${c.qty}</b><button onclick="setQty(${p.id},1)">+</button></div>
- <button class="del" onclick="delete cart[${p.id}];render()">✕</button></div>`;}).join('')}
- <div class="sum"><div><span>Tovarlar</span><span>${fmt(sum)}</span></div><div><span>Yetkazish</span><span>${del?fmt(del):'Bepul 🎉'}</span></div>
- <div class="tot"><span>Jami</span><span>${fmt(sum+del)}</span></div></div>
- <button class="cta" onclick="go('#/checkout')">Buyurtma berish →</button>
- <p style="text-align:center;color:#8e8e93;font-size:12px;margin-top:10px">300 000 so'mdan oshsa yetkazish bepul</p></div>`+nav('cart');
+ <button class="del" onclick="delete S.cart[${p.id}];save();render()">✕</button></div>`;}).join('')}
+ <div class="promo"><input id="promo-in" placeholder="Promokod (masalan: KANAL10)" value="${S.promo}"><button onclick="applyPromo()">Qo'llash</button></div>
+ ${S.promo?`<p style="color:var(--gr);font-weight:700;font-size:13px;margin:-2px 2px 10px">✓ ${S.promo} — ${PROMOS[S.promo]}% chegirma hisobga olindi</p>`:''}
+ <div class="sum"><div><span>Tovarlar (${cartCount()} ta)</span><span>${fmt(sum)}</span></div>
+ ${pd?`<div class="discrow"><span>Promokod chegirmasi</span><span>−${fmt(pd)}</span></div>`:''}
+ <div><span>Yetkazish</span><span>${del?fmt(del):'Bepul 🎉'}</span></div>
+ <div class="tot"><span>Jami</span><span>${fmt(sum-pd+del)}</span></div></div>
+ <button class="cta" onclick="go('#/checkout')">Buyurtma berish →</button></div>`+nav('cart');
 }
+function setQty(id,d){S.cart[id].qty+=d;const p=byId(id);if(S.cart[id].qty>p.stock)S.cart[id].qty=p.stock;if(S.cart[id].qty<1)delete S.cart[id];save();render();}
+function later(id){if(!S.favs.includes(id))S.favs.push(id);delete S.cart[id];save();toast('Sevimlilarga ko\'chirildi ❤️');render();}
+function applyPromo(){const v=(document.getElementById('promo-in').value||'').trim().toUpperCase();if(PROMOS[v]){S.promo=v;save();toast('Promokod qo\'llandi ✓');render();}else toast('Bunday promokod topilmadi');}
 function checkout(){
- const sum=cartSum(),del=sum>=300000?0:25000;
- return `<button class="back" onclick="go('#/cart')">← Savatga</button><div class="page" style="padding-top:6px"><div class="ptitle">📋 Buyurtma berish</div>
- <div class="fld"><label>Ismingiz</label><input id="f-name" placeholder="Masalan: Azizbek"></div>
- <div class="fld"><label>Telefon</label><input id="f-phone" placeholder="+998 __ ___ __ __" inputmode="tel"></div>
- <div class="fld"><label>Manzil</label><input id="f-addr" placeholder="Shahar, ko'cha, uy"></div>
+ const sum=goodsSum(),pd=promoDisc();
+ const del=method==='point'?0:delFee(sum-pd);
+ const eta=method==='point'?dateStr(2):dateStr(1);
+ const u=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
+ return `<button class="back" onclick="go('#/cart')">← Savatga</button><div class="page" style="padding-top:4px"><div class="ptitle">📋 Buyurtma berish</div>
+ <div class="fld"><label>Ismingiz</label><input id="f-name" placeholder="Masalan: Azizbek" value="${u?((u.first_name||'')+' '+(u.last_name||'')).trim():''}"></div>
+ <div class="fld"><label>Telefon raqam</label><input id="f-phone" placeholder="+998 90 123 45 67" inputmode="tel" value="${S.phone}"></div>
+ <div class="fld"><label>Yetkazish usuli</label><div class="mrow">
+ <div class="meth ${method==='courier'?'on':''}" onclick="method='courier';render()"><b>🏠 Kuryer</b><small>Manzilga olib boramiz — ${dateStr(1)} yetadi</small></div>
+ <div class="meth ${method==='point'?'on':''}" onclick="method='point';render()"><b>📦 Punkt dan olish</b><small>O'zingiz olib ketasiz — bepul, ${dateStr(2)} dan tayyor</small></div></div></div>
+ ${method==='courier'?`<div class="fld"><label>Manzil</label><input id="f-addr" placeholder="Ko'cha, uy, mo'ljal" value="${S.addr}"></div>`:
+ `<div class="fld"><label>Qaysi punkt?</label><select id="f-point">${POINTS.map((pt,i)=>`<option value="${i}" ${pointIdx===i?'selected':''}>${pt}</option>`).join('')}</select></div>`}
+ <div class="fld"><label>Izoh (ixtiyoriy)</label><input id="f-note" placeholder="Masalan: ishdan keyin, 18:00 dan so'ng qo'ng'iroq qiling"></div>
  <div class="fld"><label>To'lov usuli</label><div class="payrow">
- <div class="pay ${pay==='click'?'on':''}" onclick="pay='click';render()"><div>💳</div>Click</div>
- <div class="pay ${pay==='payme'?'on':''}" onclick="pay='payme';render()"><div>🟢</div>Payme</div>
- <div class="pay ${pay==='cash'?'on':''}" onclick="pay='cash';render()"><div>💵</div>Naqd</div></div></div>
- <div class="sum"><div><span>Tovarlar (${cartCount()} ta)</span><span>${fmt(sum)}</span></div><div><span>Yetkazish</span><span>${del?fmt(del):'Bepul 🎉'}</span></div><div class="tot"><span>Jami</span><span>${fmt(sum+del)}</span></div></div>
- <button class="cta" onclick="placeOrder()">✅ Tasdiqlash — ${fmt(sum+del)}</button></div>`+nav('');
+ <div class="pay ${pay==='click'?'on':''}" onclick="pay='click';render()"><div>💳</div>Click<small>Havola botdan keladi</small></div>
+ <div class="pay ${pay==='payme'?'on':''}" onclick="pay='payme';render()"><div>🟢</div>Payme<small>Havola botdan keladi</small></div>
+ <div class="pay ${pay==='cash'?'on':''}" onclick="pay='cash';render()"><div>💵</div>Naqd<small>Olgan paytda</small></div></div></div>
+ <div class="sum"><div><span>Tovarlar (${cartCount()} ta)</span><span>${fmt(sum)}</span></div>
+ ${pd?`<div class="discrow"><span>Promokod ${S.promo}</span><span>−${fmt(pd)}</span></div>`:''}
+ <div><span>Yetkazish (${method==='point'?'punkt':'kuryer'}, ${eta})</span><span>${del?fmt(del):'Bepul 🎉'}</span></div>
+ <div class="tot"><span>Jami</span><span>${fmt(sum-pd+del)}</span></div></div>
+ <button class="cta" onclick="placeOrder()">✅ Tasdiqlash — ${fmt(sum-pd+del)}</button>
+ <p style="text-align:center;color:#8e8e93;font-size:12px;margin-top:9px">Tasdiqlasangiz, operator qo'ng'iroq qilib manzilni aniqlashtiradi</p></div>`+nav('');
 }
 function placeOrder(){
- const name=(document.getElementById('f-name')||{}).value||"Mijoz";
- const phone=(document.getElementById('f-phone')||{}).value||"";
- if(!phone){toast('Telefon raqamingizni yozing, qo\'ng\'iroq qilamiz');return;}
- const sum=cartSum(),del=sum>=300000?0:25000;
- const ord={no:1000+orders.length+1,items:Object.values(cart).map(c=>{const p=byId(c.id);return `${p.name} ×${c.qty}`;}).join('<br>'),total:sum+del,pay:pay==='cash'?'Naqd':pay==='click'?'Click':'Payme',name,status:'Qabul qilindi',date:new Date().toLocaleString('uz-UZ')};
- orders.unshift(ord);cart={};
- if(tg){tg.sendData&&tg.sendData(JSON.stringify({type:'order',order:ord}));}
+ const name=((document.getElementById('f-name')||{}).value||'').trim();
+ const phone=((document.getElementById('f-phone')||{}).value||'').trim();
+ const note=((document.getElementById('f-note')||{}).value||'').trim();
+ if(name.length<2){toast('Ismingizni yozing');return;}
+ if(phone.replace(/\D/g,'').length<9){toast('Telefon raqamni to\'liq yozing');return;}
+ let addr='';
+ if(method==='courier'){addr=((document.getElementById('f-addr')||{}).value||'').trim();if(addr.length<5){toast('Manzilni yozing — kuryer qayerga borsin?');return;}S.addr=addr;}
+ else{pointIdx=+((document.getElementById('f-point')||{}).value||0);addr=POINTS[pointIdx];}
+ S.phone=phone;
+ const sum=goodsSum(),pd=promoDisc(),del=method==='point'?0:delFee(sum-pd);
+ const no='AZ-'+(1042+S.orders.length);
+ const items=Object.values(S.cart).map(c=>{const p=byId(c.id);return {id:p.id,img:p.imgs[0],name:p.name,opt:c.opt,qty:c.qty,price:p.price};});
+ const ord={no,date:new Date().toLocaleDateString('uz-UZ'),eta:method==='point'?dateStr(2):dateStr(1),items,total:sum-pd+del,pay:pay==='cash'?'Naqd':pay==='click'?'Click':'Payme',method:method==='point'?'Punkt dan olish':'Kuryer',addr,name,phone,note,status:0,promo:S.promo};
+ S.orders.unshift(ord);S.cart={};S.promo='';save();
+ if(tg&&tg.sendData){try{tg.sendData(JSON.stringify({type:'order',order:{no:no,items:items.map(i=>`${i.name} (${i.opt}) ×${i.qty}`).join('<br>')+`<br>Yetkazish: ${ord.method} — ${addr}<br>Sana: ${ord.eta}`,total:ord.total,pay:ord.pay,name:name,phone:phone}}));}catch(e){}}
  go('#/done');
 }
 function donePage(){
- const o=orders[0];
- return `<div class="ok"><div class="em">✅</div><h2>Rahmat, buyurtmangiz yetib keldi! 🎉</h2>
- <p>Buyurtma № <b>${o?o.no:''}</b><br>Endi operator qo'ng'iroq qiladi — manzilni aniqlashtirib, yuborib yuboramiz.<br>Holati «Buyurtma» bo'limida ko'rinadi.</p>
+ const o=S.orders[0];
+ return `<div class="ok"><div class="em">✅</div><h2>Rahmat, ${o?o.name.split(' ')[0]:'buyurtmangiz'} yetib keldi!</h2>
+ <p>Buyurtma raqamingiz: <b>${o?o.no:''}</b><br>Operator qo'ng'iroq qiladi — manzilni aniqlashtirib, <b>${o?o.eta:''}</b> yuborib yuboramiz.<br>Holatini «Buyurtma» bo'limidan kuzatib boring.</p>
  <button class="cta" style="max-width:300px" onclick="go('#/orders')">📦 Buyurtmalarim</button>
  <button class="cta" style="max-width:300px;background:#16161a" onclick="go('#/')">🏠 Bosh sahifaga</button></div>`+nav('');
 }
 function ordersPage(){
- if(!orders.length)return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div><div class="empty"><div class="em">📦</div><b>Hozircha buyurtma yo'q</b>Birinchi buyurtmangizga yetkazish bizdan sovg'a</div><button class="cta" onclick="go('#/')">Xaridni boshlash</button></div>`+nav('orders');
- return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div>${orders.map(o=>`<div class="ord"><div class="oh"><span>№ ${o.no} • ${o.date}</span><span class="st">${o.status}</span></div><div class="oi">${o.items}</div><div class="ot">${fmt(o.total)} • ${o.pay}</div></div>`).join('')}</div>`+nav('orders');
+ if(!S.orders.length)return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div><div class="empty"><div class="em">📦</div><b>Hozircha buyurtma yo'q</b>Birinchi buyurtmangizga yetkazish bizdan sovg'a</div><button class="cta" onclick="go('#/')">Xaridni boshlash</button></div>`+nav('orders');
+ return `<div class="page"><div class="ptitle">📦 Buyurtmalarim</div>${S.orders.map((o,oi)=>`
+ <div class="ord"><div class="oh"><b>№ ${o.no}</b><span>${o.date}</span>${o.status===99?'<span class="stbadge cx">Bekor qilingan</span>':`<span class="stbadge">${STEPS[Math.min(o.status+1,4)]==='Topshirildi'?'Yetkazildi':STEPS[o.status]}</span>`}</div>
+ ${o.status!==99?`<div class="tl">${STEPS.map((s,i)=>`<div class="st ${i<=o.status+1?'done':''}">${s}</div>`).join('')}</div>`:''}
+ <div class="oimgs">${o.items.map(i=>`<img src="${G}${i.img}" alt="">`).join('')}</div>
+ <div class="oi">${o.items.map(i=>`${i.name} — ${i.opt} ×${i.qty}`).join('<br>')}</div>
+ <div class="ot">${fmt(o.total)} • ${o.pay}</div>
+ <div class="om">${o.method}: ${o.addr}<br>Kutilayotgan sana: ${o.eta}${o.note?'<br>Izoh: '+o.note:''}</div>
+ <div class="obtns"><button onclick="toast('Yordam: botga yozing, operator javob beradi 💬')">💬 Yordam</button>
+ ${o.status===0&&o.status!==99?`<button class="cancel" onclick="cancelOrder(${oi})">Bekor qilish</button>`:''}</div></div>`).join('')}</div>`+nav('orders');
+}
+function cancelOrder(i){S.orders[i].status=99;save();toast('Buyurtma bekor qilindi');render();}
+function favsPage(){
+ const arr=S.favs.map(byId).filter(Boolean);
+ return `<button class="back" onclick="go('#/profile')">← Profilga</button><div class="page" style="padding-top:2px"><div class="ptitle">❤️ Sevimlilar</div>
+ ${arr.length?`<div class="grid" style="padding:0">${arr.map(card).join('')}</div>`:`<div class="empty"><div class="em">🤍</div><b>Hozircha bo'sh</b>Tovar kartasidagi yurakchani bossangiz, shu yerda chiqadi</div>`}</div>`+nav('profile');
+}
+function infoPage(){
+ return `<button class="back" onclick="go('#/profile')">← Profilga</button><div class="page" style="padding-top:2px"><div class="ptitle">ℹ️ Yetkazish va qaytarish</div>
+ <div class="infocard" style="margin-top:0"><b class="t">🚚 Yetkazib berish</b>
+ <p style="color:#444">Toshkent bo'ylab kuryer — 1 kun, 25 000 so'm. Buyurtma 300 000 so'mdan oshsa — bepul.<br>Olib ketish punktlari: ish vaqti 09:00–21:00, yetkazish bepul, 2 kunda tayyor bo'ladi.<br>Viloyatlarga operator bilan kelishiladi.</p></div>
+ <div class="infocard"><b class="t">↩️ Qaytarish</b>
+ <p style="color:#444">Tovar to'g'ri kelmasa yoki nuqsoni bo'lsa, 14 kun ichida qaytarish mumkin. Pul 3 ish kunida qaytadi. Buning uchun botga yozing — operator yo'l ko'rsatadi.</p></div>
+ <div class="infocard"><b class="t">💳 To'lov</b>
+ <p style="color:#444">Click va Payme — tasdiqdan keyin bot to'lov havolasini yuboradi. Naqd — tovarni olgan paytda kuryerga yoki punktda.</p></div></div>`+nav('profile');
 }
 function profile(){
  const u=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
- const nm=u?(u.first_name+' '+(u.last_name||'')):orders[0]?orders[0].name:'Mehmon';
+ const nm=u?((u.first_name||'')+' '+(u.last_name||'')):S.orders[0]?S.orders[0].name:'Mehmon';
  return `<div class="page"><div class="ptitle">👤 Profil</div>
- <div class="prof"><div class="pava">${(nm||'M').trim()[0].toUpperCase()}</div><div><b style="font-size:17px">${nm}</b><div style="color:#8e8e93;font-size:13px;margin-top:2px">${u?'@'+(u.username||''):''} • Kanal obunachisi ⭐</div></div></div>
+ <div class="prof"><div class="pava">${(nm||'M').trim()[0].toUpperCase()}</div><div><b style="font-size:17px">${nm}</b><div style="color:#8e8e93;font-size:13px;margin-top:2px">${u&&u.username?'@'+u.username+' • ':''}${S.phone||''}</div><div style="color:#8e8e93;font-size:12.5px">Buyurtmalar: ${S.orders.length} ta • Kanal obunachisi ⭐</div></div></div>
+ <div class="fld" style="margin-top:14px"><label>Telefonim (buyurtmada avtomatik chiqadi)</label><input id="my-phone" placeholder="+998 ..." value="${S.phone}" onchange="S.phone=this.value;save();toast('Saqlandi ✓')"></div>
+ ${S.addr?`<div class="infocard" style="margin-top:0"><b class="t">📍 Saqlangan manzil</b><p style="color:#444">${S.addr}</p></div>`:''}
  <div class="menu">
- <button onclick="go('#/orders')"><span>📦 Buyurtmalarim</span><span>›</span></button>
+ <button onclick="go('#/orders')"><span>📦 Buyurtmalarim</span><span>${S.orders.length||''} ›</span></button>
  <button onclick="go('#/cart')"><span>🛒 Savatim</span><span>${cartCount()||''} ›</span></button>
- <button onclick="toast('Sevimlilar: '+favs.size+' ta ❤️')"><span>❤️ Sevimlilar</span><span>${favs.size||''} ›</span></button>
- <button onclick="toast('Promokod: KANAL10 — 10% chegirma 🎁')"><span>🎁 Promokodlarim</span><span>›</span></button>
- <button onclick="toast('Yetkazish: Toshkent 1 kun, viloyatlar 2-3 kun 🚚')"><span>🚚 Yetkazish haqida</span><span>›</span></button>
- <button onclick="toast('Yordam: @market_support ga yozing 💬')"><span>💬 Yordam / Aloqa</span><span>›</span></button>
+ <button onclick="go('#/favs')"><span>❤️ Sevimlilar</span><span>${S.favs.length||''} ›</span></button>
+ <button onclick="toast('Promokodingiz: AZURA10 — savatda yozing, 10% chegirma 🎁')"><span>🎁 Promokodlarim</span><span>›</span></button>
+ <button onclick="go('#/info')"><span>🚚 Yetkazish va qaytarish</span><span>›</span></button>
+ <button onclick="window.open('https://t.me/azura_market_bot','_blank')"><span>📣 Kanalimiz va bot</span><span>›</span></button>
+ <button onclick="toast('Yordam: @azura_market_bot ga yozing 💬')"><span>💬 Yordam / Aloqa</span><span>›</span></button>
  </div>
- <p style="text-align:center;color:#aeaeb2;font-size:12px;margin-top:18px">MARKET•UZ — Telegram Mini App v1.0</p></div>`+nav('profile');
+ <p style="text-align:center;color:#aeaeb2;font-size:12px;margin-top:18px">Azura Market — Telegram do'koni, v3.0</p></div>`+nav('profile');
 }
 function render(){
  const h=location.hash||'#/';
@@ -293,12 +494,15 @@ function render(){
  else if(h==='#/checkout')html=checkout();
  else if(h==='#/orders')html=ordersPage();
  else if(h==='#/profile')html=profile();
+ else if(h==='#/favs')html=favsPage();
+ else if(h==='#/info')html=infoPage();
  else if(h==='#/done')html=donePage();
  else html=home();
  app.innerHTML=html;window.scrollTo(0,0);
- if(tg&&tg.BackButton){['#/product/','#/checkout'].some(x=>h.startsWith(x))?tg.BackButton.show():tg.BackButton.hide();tg.BackButton.onClick(()=>history.back());}
+ if(tg&&tg.BackButton){try{['#/product/','#/checkout','#/favs','#/info'].some(x=>h.startsWith(x))?tg.BackButton.show():tg.BackButton.hide();tg.BackButton.onClick(()=>history.back());}catch(e){}}
+ if(tg&&tg.MainButton){try{tg.MainButton.hide();}catch(e){}}
 }
-/* Kanal tugmasidan kelish: t.me/bot/app?startapp=product_1 yoki ?startapp=product_1 */
+/* Kanal tugmasi: t.me/azura_market_bot?startapp=product_1 */
 (function(){
  let sp='';
  try{sp=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param)||new URLSearchParams(location.search).get('startapp')||new URLSearchParams(location.search).get('start')||'';}catch(e){}
